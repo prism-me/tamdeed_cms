@@ -1,5 +1,5 @@
 import React from "react";
-import "./MentorsList.scss";
+import "./TeamList.scss";
 import {
     Card,
     CardBody,
@@ -21,7 +21,7 @@ const CustomHeader = (props) => {
                 <Button.Ripple
                     color="primary"
                     onClick={() => {
-                        props.history.push("/Mentors/form");
+                        props.history.push("/Team/form");
                     }}
                 >
                     Add New
@@ -37,7 +37,7 @@ const CustomHeader = (props) => {
     );
 };
 
-class MentorsList extends React.Component {
+class TeamList extends React.Component {
     state = {
         columns: [
             {
@@ -117,9 +117,9 @@ class MentorsList extends React.Component {
     }
 
     getArticleCategories = () => {
-        API.get("/mentors")
+        API.get("/team")
             .then((response) => {
-                // console.log("Mentor response", response.data.data);
+                console.log("Mentor response", response.data.data);
                 this.setState({ data: response.data.data });
             })
             .catch();
@@ -208,4 +208,4 @@ class MentorsList extends React.Component {
     }
 }
 
-export default MentorsList;
+export default TeamList;

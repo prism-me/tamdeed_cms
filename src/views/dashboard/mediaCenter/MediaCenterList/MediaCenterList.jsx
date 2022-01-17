@@ -1,5 +1,5 @@
 import React from "react";
-import "./MentorsList.scss";
+import "./MediaCenterList.scss";
 import {
     Card,
     CardBody,
@@ -21,7 +21,7 @@ const CustomHeader = (props) => {
                 <Button.Ripple
                     color="primary"
                     onClick={() => {
-                        props.history.push("/Mentors/form");
+                        props.history.push("/MediaCenter/form");
                     }}
                 >
                     Add New
@@ -37,7 +37,7 @@ const CustomHeader = (props) => {
     );
 };
 
-class MentorsList extends React.Component {
+class MediaCenterList extends React.Component {
     state = {
         columns: [
             {
@@ -184,7 +184,7 @@ class MentorsList extends React.Component {
         return (
             <Card>
                 <CardHeader>
-                    <CardTitle>Our Team</CardTitle>
+                    <CardTitle>Media Center</CardTitle>
                 </CardHeader>
                 <CardBody className="rdt_Wrapper">
                     <DataTable
@@ -208,4 +208,4 @@ class MentorsList extends React.Component {
     }
 }
 
-export default MentorsList;
+export default MediaCenterList;

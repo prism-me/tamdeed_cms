@@ -110,6 +110,18 @@ const LifeAtAgsForm = lazy(() => import("./views/dashboard/LifeAtAgs/LifeAtAgsFo
 const MentorsList = lazy(() => import("./views/dashboard/mentors/MentorsList"));
 const MentorsForm = lazy(() => import("./views/dashboard/mentors/MentorsForm"));
 
+const TeamList = lazy(() => import("./views/dashboard/Team/TeamList"));
+const TeamForm = lazy(() => import("./views/dashboard/Team/TeamForm"));
+
+const MediaCenterList = lazy(() => import("./views/dashboard/mediaCenter/MediaCenterList"));
+const MediaCenterForm = lazy(() => import("./views/dashboard/mediaCenter/MediaCenterForm"));
+
+const ProjectsList = lazy(() => import("./views/dashboard/projects/ProjectsList"));
+const ProjectsForm = lazy(() => import("./views/dashboard/projects/ProjectsForm"));
+
+const SolutionAndServicesList = lazy(() => import("./views/dashboard/SolutionAndServices/SolutionAndServicesList"));
+const SolutionAndServicesForm = lazy(() => import("./views/dashboard/SolutionAndServices/SolutionAndServicesForm"));
+
 const pagesForm = lazy(() => import("./views/dashboard/pages/pages-form"));
 const pagesList = lazy(() => import("./views/dashboard/pages/pages-list"));
 
@@ -472,6 +484,22 @@ class AppRouter extends React.Component {
             <AppRoute path="/Mentors/form/edit/:id" component={MentorsForm} />
             <AppRoute path="/Mentors/form" component={MentorsForm} />
             <AppRoute path="/Mentors" component={MentorsList} />
+
+            <AppRoute path="/Team/form/edit/:id" component={TeamForm} />
+            <AppRoute path="/Team/form" component={TeamForm} />
+            <AppRoute path="/Team" component={TeamList} />
+
+            <AppRoute path="/MediaCenter/form/edit/:id" component={MediaCenterForm} />
+            <AppRoute path="/MediaCenter/form" component={MediaCenterForm} />
+            <AppRoute path="/MediaCenter" component={MediaCenterList} />
+
+            <AppRoute path="/Projects/form/edit/:id" component={ProjectsForm} />
+            <AppRoute path="/Projects/form" component={ProjectsForm} />
+            <AppRoute path="/Projects" component={ProjectsList} />
+
+            <AppRoute path="/SolutionAndServices/form/edit/:id" component={SolutionAndServicesForm} />
+            <AppRoute path="/SolutionAndServices/form" component={SolutionAndServicesForm} />
+            <AppRoute path="/SolutionAndServices" component={SolutionAndServicesList} />
 
             <AppRoute
               path="/breast-feeding-advisor/form/:id"

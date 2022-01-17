@@ -32,6 +32,44 @@ const navigationConfig = [
     navLink: "/about",
   },
 
+  // !--------------out team-------
+  {
+    id: "TeamForm",
+    title: "Our Team",
+    type: "item",
+    icon: <Icon.Users size={12} />,
+    permissions: ["admin", "editor"],
+    navLink: "/Team/list",
+  },
+  // !--------------out projects-------
+  {
+    id: "ProjectsForm",
+    title: "Our Projects",
+    type: "item",
+    icon: <Icon.Users size={12} />,
+    permissions: ["admin", "editor"],
+    navLink: "/Projects/list",
+  },
+
+  // !--------------SolutionAndServices-------
+  {
+    id: "SolutionAndServices",
+    title: "Solution And Services",
+    type: "item",
+    icon: <Icon.Users size={12} />,
+    permissions: ["admin", "editor"],
+    navLink: "/SolutionAndServices/list",
+  },
+  // !--------------SolutionAndServices-------
+  {
+    id: "mediaCenter",
+    title: "Media Center",
+    type: "item",
+    icon: <Icon.Users size={12} />,
+    permissions: ["admin", "editor"],
+    navLink: "/MediaCenter/list",
+  },
+
   //! -----------academics Page---------
   {
     id: "academics",
@@ -131,6 +169,16 @@ const navigationConfig = [
     navLink: "/Events/list",
   },
 
+    //!--------------Mentors-------
+    {
+      id: "MentorsForm",
+      title: "Meet Mentors",
+      type: "item",
+      icon: <Icon.Users size={12} />,
+      permissions: ["admin", "editor"],
+      navLink: "/Mentors/list",
+    },
+
   //!--------------ExperienceAgsForm-------
   {
     id: "videosForm",
@@ -150,15 +198,6 @@ const navigationConfig = [
     navLink: "/LifeAtAgs/list",
   },
 
-  //!--------------Mentors-------
-  {
-    id: "MentorsForm",
-    title: "Meet Mentors",
-    type: "item",
-    icon: <Icon.Users size={12} />,
-    permissions: ["admin", "editor"],
-    navLink: "/Mentors/list",
-  },
 
   //!--------------Pages-------
   {
