@@ -83,7 +83,7 @@ const TeamForm = (props) => {
     useEffect(() => {
         if (id && id !== "") {
             setIsEdit(true);
-            API.get(`/team/${id}`)
+            API.get(`/teams/${id}`)
                 .then((response) => {
                     // debugger;
                     if (!response.data.data.arabic) {
@@ -173,7 +173,7 @@ const TeamForm = (props) => {
         if (isEdit) {
             let updateId = updatedData.route;
             delete updatedData["_id"];
-            API.put(`/team/${updateId}`, updatedData)
+            API.put(`/teams/${updateId}`, updatedData)
                 .then((response) => {
                     if (response.status === 200 || response.status === 201) {
                         alert("Team updated successfully");
@@ -183,10 +183,10 @@ const TeamForm = (props) => {
                 .catch((err) => alert("Something went wrong"));
         }
         else {
-            API.post(`/team`, team)
+            API.post(`/teams`, team)
                 .then((response) => {
                     if (response.status === 200 || response.status === 201) {
-                        alert("Mentors added successfully");
+                        alert("Team added successfully");
                         history.push("/Team/list");
                     }
                 })
@@ -344,63 +344,6 @@ const TeamForm = (props) => {
                 />
             </Card>
             {/* //!--------Arabic Version---------- */}
-
-            {isEdit && (
-
-                <Card className="feeding-advisor-arabic-form">
-                    <CardHeader>
-                        <CardTitle>Arabic Form</CardTitle>
-                    </CardHeader>
-                    <CardBody>
-                        <Formik
-                            initialValues={{
-                                required: "",
-                            }}
-                            validationSchema={formSchema}
-                        >
-                            {({ errors, touched }) => (
-                                <Form>
-                                    <FormGroup className="mb-1">
-                                        <Label for="name">Title</Label>
-                                        <Field
-                                            name="name"
-                                            id="name"
-                                            value={team?.arabic?.name}
-                                            onChange={handleArabicOnChange}
-                                            className={`form-control`}
-                                        />
-                                    </FormGroup>
-
-                                    <Row>
-                                        <Col sm={12}>
-                                            <div>
-                                                <Label for="infoText">Sub-Title</Label>
-                                                <CKEditor
-                                                    config={ckEditorConfig}
-                                                    onBeforeLoad={(CKEDITOR) =>
-                                                        (CKEDITOR.disableAutoInline = true)
-                                                    }
-                                                    data={team?.arabic?.description}
-                                                    onChange={(e) => handleArabicEditor(e.editor.getData())}
-                                                />
-                                            </div>
-                                        </Col>
-                                    </Row>
-
-                                    {/* <Button.Ripple
-                                        onClick={handleSubmit}
-                                        color="primary"
-                                        type="submit"
-                                        className="mt-2"
-                                    >
-                                        {isEdit ? "Edit" : "Add"}
-                                    </Button.Ripple> */}
-                                </Form>
-                            )}
-                        </Formik>
-                    </CardBody>
-                </Card>
-            )}
 
             <Card>
                 <CardBody>
