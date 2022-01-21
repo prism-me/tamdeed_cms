@@ -40,14 +40,14 @@ const initialObj = {
     twiter_link: "",
     insta_link: "",
     linkedin_link: "",
-    route: "",
-    selectedOption: null,
+    alt_tag: ""
 };
 
 const TeamForm = (props) => {
     const history = useHistory();
     const { id } = useParams();
     const [team, setTeam] = useState({ ...initialObj });
+    const [selectedOption, setSelectedOption] = useState(null);
     const [isEdit, setIsEdit] = useState(false);
     const [modalShow, setModalShow] = React.useState(false);
     const [imagesData, setImagesData] = useState([]);
@@ -91,22 +91,17 @@ const TeamForm = (props) => {
                     }
                     if (response.status === 200 || response.status === 201) {
                         setTeam(response.data.data);
-                        // console.log(mentors);
+                        let a = {
+                          value: response.data.data.designation, label: response.data.data.designation
+                        }
+                        setSelectedOption(a)
+                        console.log("response.data.data");
+                        console.log(response.data.data);
                     }
                 })
                 .catch((err) => console.log(err));
         }
     }, []);
-
-    useEffect(
-        () => {
-            setTeam({
-                ...team,
-                route: team.name.replace(/\s+/g, "-").toLocaleLowerCase(),
-            });
-        },
-        isEdit ? [] : [team.name]
-    );
 
     const handleImageSelect = (e, index) => {
         if (e.target.checked) {
@@ -114,6 +109,7 @@ const TeamForm = (props) => {
                 setTeam({
                     ...team,
                     avatar: imagesData[index].url,
+                    alt_tag: imagesData[index].alt_tag
                 });
                 setThumbnailPreview(imagesData[index].url);
                 setTimeout(() => {
@@ -146,22 +142,8 @@ const TeamForm = (props) => {
       let updatedValues = { ...team };
         // console.log(updatedValues.designation.value)
         updatedValues.designation = selectedOption.value;
-        updatedValues.selectedOption = selectedOption;
+        setSelectedOption(selectedOption);
         setTeam(updatedValues);
-    };
-    //! Handle Arbic OnChnage
-    const handleArabicOnChange = (e) => {
-        // debugger;
-        let updatedValue = { ...team };
-        updatedValue.arabic[e.target.name] = e.target.value;
-        setTeam(updatedValue);
-    };
-    //! ***Handle Arabic Editor***
-    const handleArabicEditor = (value) => {
-        // debugger;
-        let updatedValue = { ...team };
-        updatedValue.arabic.description = value;
-        setTeam(updatedValue);
     };
 
     //!------------------Submit and Edit---------------
@@ -169,9 +151,11 @@ const TeamForm = (props) => {
         let updatedData = { ...team };
         console.log("===updatedData");
         console.log(updatedData);
+        // return false;
         // updatedData.arabic.featured_img = updatedData.featured_img;
+
         if (isEdit) {
-            let updateId = updatedData.route;
+            let updateId = updatedData._id;
             delete updatedData["_id"];
             API.put(`/teams/${updateId}`, updatedData)
                 .then((response) => {
@@ -211,34 +195,41 @@ const TeamForm = (props) => {
                     >
                         {({ errors, touched }) => (
                             <Form>
-                                <FormGroup className="mb-1">
-                                    <Label for="name">Title</Label>
-                                    <Field
-                                        name="name"
-                                        id="name"
-                                        onChange={handleFieldChange}
-                                        value={team.name}
-                                        className={`form-control`}
-                                    />
-                                </FormGroup>
                                 <Row>
                                     <Col sm={9}>
-                                        <div>
-                                            <Label for="infoText">Sub-Title</Label>
-                                            <CKEditor
-                                                config={ckEditorConfig}
-                                                onBeforeLoad={(CKEDITOR) =>
-                                                    (CKEDITOR.disableAutoInline = true)
-                                                }
-                                                data={team.description}
-                                                onChange={(e) =>
-                                                    setTeam({
-                                                        ...team,
-                                                        description: e.editor.getData(),
-                                                    })
-                                                }
+                                        <FormGroup className="mb-1">
+                                            <Label for="name">Title</Label>
+                                            <Field
+                                                name="name"
+                                                id="name"
+                                                onChange={handleFieldChange}
+                                                value={team.name}
+                                                className={`form-control`}
+                                                required
                                             />
-                                        </div>
+                                        </FormGroup>
+                                        <FormGroup className="mb-1">
+                                          <Label for="name">Sub-Title</Label>
+                                          <Field
+                                              name="description"
+                                              id="description"
+                                              onChange={handleFieldChange}
+                                              value={team.description}
+                                              className={`form-control`}
+                                          />
+                                        </FormGroup>
+                                        <FormGroup className="mb-1">
+                                          <Label for="designation">Designation</Label>
+                                              <Select
+                                                value={selectedOption}
+                                                onChange={handleDesignationChange}
+                                                options={options}
+                                                name="designation"
+                                                placeholder="Designation"
+                                                isSearchable={options}
+                                              />
+                                      </FormGroup>
+
                                     </Col>
                                     <Col sm={3}>
                                         <FormGroup className="">
@@ -263,24 +254,6 @@ const TeamForm = (props) => {
                                         </FormGroup>
                                     </Col>
                                 </Row>
-                                <FormGroup className="mb-1">
-                                    <Label for="designation">Designation</Label>
-                                    {/* <Field
-                                        name="designation"
-                                        id="designation"
-                                        onChange={handleFieldChange}
-                                        value={team.designation}
-                                        className={`form-control`}
-                                    /> */}
-                                        <Select
-                                          value={team.selectedOption}
-                                          onChange={handleDesignationChange}
-                                          options={options}
-                                          name="designation"
-                                          placeholder="Designation"
-                                          isSearchable={options}
-                                        />
-                                </FormGroup>
                                 <FormGroup className="mb-1">
                                     <Label for="fb_link">Facebook link</Label>
                                     <Field
@@ -318,16 +291,6 @@ const TeamForm = (props) => {
                                         id="insta_link"
                                         onChange={handleFieldChange}
                                         value={team.insta_link}
-                                        className={`form-control`}
-                                    />
-                                </FormGroup>
-                                <FormGroup className="mb-1">
-                                    <Label for="route">Route</Label>
-                                    <Field
-                                        name="route"
-                                        id="route"
-                                        onChange={handleFieldChange}
-                                        value={team.route}
                                         className={`form-control`}
                                     />
                                 </FormGroup>

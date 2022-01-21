@@ -43,12 +43,12 @@ const navigationConfig = [
   },
   // !--------------out projects-------
   {
-    id: "ProjectsForm",
-    title: "Our Projects",
+    id: "IndustryForm",
+    title: "Our Industry",
     type: "item",
     icon: <Icon.Users size={12} />,
     permissions: ["admin", "editor"],
-    navLink: "/Projects/list",
+    navLink: "/Industry/list",
   },
 
   // !--------------SolutionAndServices-------

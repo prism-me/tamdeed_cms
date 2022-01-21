@@ -26,7 +26,7 @@ import { API } from '../../../http/API';
 export default function GalleryDialog(props) {
   const [currentFiles, setCurrentFiles] = useState([]);
   const [allImages, setAllImages] = useState([]);
- 
+
   useEffect(() => {
     if (props?.data?.length > 0) {
       setAllImages(props?.data);

@@ -1,5 +1,5 @@
 import React from "react";
-import "./ProjectsList.scss";
+import "./IndustryList.scss";
 import {
     Card,
     CardBody,
@@ -21,7 +21,7 @@ const CustomHeader = (props) => {
                 <Button.Ripple
                     color="primary"
                     onClick={() => {
-                        props.history.push("/Projects/form");
+                        props.history.push("/Industry/form");
                     }}
                 >
                     Add New
@@ -37,7 +37,7 @@ const CustomHeader = (props) => {
     );
 };
 
-class ProjectsList extends React.Component {
+class IndustryList extends React.Component {
     state = {
         columns: [
             {
@@ -90,7 +90,7 @@ class ProjectsList extends React.Component {
                                 color: "#1A2C52 ",
                             }}
                             onClick={() => {
-                                this.props.history.push(`/Mentors/form/edit/${row._id}`);
+                                this.props.history.push(`/Industry/form/edit/${row._id}`);
                             }}
                             className="action-icon-edit"
                         />
@@ -113,11 +113,11 @@ class ProjectsList extends React.Component {
         value: "",
     };
     componentDidMount() {
-        this.getArticleCategories();
+        this.getIndustries();
     }
 
-    getArticleCategories = () => {
-        API.get("/mentors")
+    getIndustries = () => {
+        API.get("/industries")
             .then((response) => {
                 // console.log("Mentor response", response.data.data);
                 this.setState({ data: response.data.data });
@@ -126,10 +126,10 @@ class ProjectsList extends React.Component {
     };
 
     handleDelete = (id) => {
-        API.delete(`/mentors/${id}`)
+        API.delete(`/industries/${id}`)
             .then((response) => {
                 // alert("Mentor deleted successfully");
-                this.getArticleCategories();
+                this.getIndustries();
             })
             .catch((err) => console.log(err));
     };
@@ -184,7 +184,7 @@ class ProjectsList extends React.Component {
         return (
             <Card>
                 <CardHeader>
-                    <CardTitle>Our Projects</CardTitle>
+                    <CardTitle>Industries</CardTitle>
                 </CardHeader>
                 <CardBody className="rdt_Wrapper">
                     <DataTable
@@ -208,4 +208,4 @@ class ProjectsList extends React.Component {
     }
 }
 
-export default ProjectsList;
+export default IndustryList;

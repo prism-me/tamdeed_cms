@@ -90,7 +90,7 @@ class MediaCenterList extends React.Component {
                                 color: "#1A2C52 ",
                             }}
                             onClick={() => {
-                                this.props.history.push(`/Mentors/form/edit/${row._id}`);
+                                this.props.history.push(`/MediaCenter/form/edit/${row._id}`);
                             }}
                             className="action-icon-edit"
                         />
@@ -117,7 +117,7 @@ class MediaCenterList extends React.Component {
     }
 
     getArticleCategories = () => {
-        API.get("/mentors")
+        API.get("/news")
             .then((response) => {
                 // console.log("Mentor response", response.data.data);
                 this.setState({ data: response.data.data });
@@ -126,7 +126,7 @@ class MediaCenterList extends React.Component {
     };
 
     handleDelete = (id) => {
-        API.delete(`/mentors/${id}`)
+        API.delete(`/news/${id}`)
             .then((response) => {
                 // alert("Mentor deleted successfully");
                 this.getArticleCategories();

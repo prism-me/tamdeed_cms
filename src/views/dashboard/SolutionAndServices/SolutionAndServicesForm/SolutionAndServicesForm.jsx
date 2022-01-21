@@ -9,6 +9,7 @@ import {
     Label,
     Col,
     Row,
+    Input
 } from "reactstrap";
 import { useParams, useHistory } from "react-router-dom";
 import { Formik, Field, Form } from "formik";
@@ -32,18 +33,19 @@ const formSchema = Yup.object().shape({
 });
 
 const initialObj = {
-    name: "",
-    subTitle: "",
+    title: "",
+    sub_title: "",
     description: "",
     avatar: "",
     type: "",
-    selectedType: null,
+    alt_tag: ""
 };
 
 const SolutionAndServicesForm = (props) => {
     const history = useHistory();
     const { id } = useParams();
     const [solutionAndServices, setsolutionAndServices] = useState({ ...initialObj });
+    const [selectedType, setSelectedType] = useState(null);
     const [isEdit, setIsEdit] = useState(false);
     const [modalShow, setModalShow] = React.useState(false);
     const [imagesData, setImagesData] = useState([]);
@@ -79,7 +81,7 @@ const SolutionAndServicesForm = (props) => {
     useEffect(() => {
         if (id && id !== "") {
             setIsEdit(true);
-            API.get(`/solutionAndServices/${id}`)
+            API.get(`/solutions/${id}`)
                 .then((response) => {
                     // debugger;
                     if (!response.data.data.arabic) {
@@ -87,22 +89,16 @@ const SolutionAndServicesForm = (props) => {
                     }
                     if (response.status === 200 || response.status === 201) {
                         setsolutionAndServices(response.data.data);
-                        // console.log(mentors);
+                        let a = {
+                          value: response.data.data.type, label: response.data.data.type
+                        }
+                        setSelectedType(a);
+                        // console.log(Solution Or Service);
                     }
                 })
                 .catch((err) => console.log(err));
         }
     }, []);
-
-    useEffect(
-        () => {
-            setsolutionAndServices({
-                ...solutionAndServices,
-                route: solutionAndServices.name.replace(/\s+/g, "-").toLocaleLowerCase(),
-            });
-        },
-        isEdit ? [] : [solutionAndServices.name]
-    );
 
     const handleImageSelect = (e, index) => {
         if (e.target.checked) {
@@ -110,6 +106,7 @@ const SolutionAndServicesForm = (props) => {
                 setsolutionAndServices({
                     ...solutionAndServices,
                     avatar: imagesData[index].url,
+                    alt_tag: imagesData[index].alt_tag
                 });
                 setThumbnailPreview(imagesData[index].url);
                 setTimeout(() => {
@@ -142,49 +139,32 @@ const SolutionAndServicesForm = (props) => {
       let updatedValues = { ...solutionAndServices };
         // console.log(updatedValues.designation.value)
         updatedValues.type = selectedOption.value;
-        updatedValues.selectedType = selectedOption;
+        setSelectedType(selectedOption);
         setsolutionAndServices(updatedValues);
-    };
-    //! Handle Arbic OnChnage
-    const handleArabicOnChange = (e) => {
-        // debugger;
-        let updatedValue = { ...solutionAndServices };
-        updatedValue.arabic[e.target.name] = e.target.value;
-        setsolutionAndServices(updatedValue);
-    };
-    //! ***Handle Arabic Editor***
-    const handleArabicEditor = (value) => {
-        // debugger;
-        let updatedValue = { ...solutionAndServices };
-        updatedValue.arabic.description = value;
-        setsolutionAndServices(updatedValue);
     };
 
     //!------------------Submit and Edit---------------
     const handleSubmit = () => {
         let updatedData = { ...solutionAndServices };
-        console.log("===updatedData");
-        console.log(updatedData);
-        return false;
         // updatedData.arabic.featured_img = updatedData.featured_img;
         if (isEdit) {
-            let updateId = updatedData.route;
+            let updateId = updatedData._id;
             delete updatedData["_id"];
-            API.put(`/solutionAndServices/${updateId}`, updatedData)
+            API.put(`/solutions/${updateId}`, updatedData)
                 .then((response) => {
                     if (response.status === 200 || response.status === 201) {
-                        alert("Team updated successfully");
-                        history.push("/setsolutionAndServices/list");
+                        alert("Solution Or Service updated successfully");
+                        history.push("/SolutionAndServices/list");
                     }
                 })
                 .catch((err) => alert("Something went wrong"));
         }
         else {
-            API.post(`/solutionAndServices`, solutionAndServices)
+            API.post(`/solutions`, solutionAndServices)
                 .then((response) => {
                     if (response.status === 200 || response.status === 201) {
-                        alert("Mentors added successfully");
-                        history.push("/setsolutionAndServices/list");
+                        alert("Solution Or Service added successfully");
+                        history.push("/SolutionAndServices/list");
                     }
                 })
                 .catch((err) => console.log(err));
@@ -209,28 +189,28 @@ const SolutionAndServicesForm = (props) => {
                         {({ errors, touched }) => (
                             <Form>
                                 <FormGroup className="mb-1">
-                                    <Label for="name">Title</Label>
+                                    <Label for="title">Title</Label>
                                     <Field
-                                        name="name"
-                                        id="name"
+                                        name="title"
+                                        id="title"
                                         onChange={handleFieldChange}
-                                        value={solutionAndServices.name}
+                                        value={solutionAndServices.title}
                                         className={`form-control`}
                                     />
                                 </FormGroup>
                                 <FormGroup className="mb-1">
-                                    <Label for="subTitle">Sub-Title</Label>
+                                    <Label for="sub_title">Sub-Title</Label>
                                     <Field
-                                        name="subTitle"
-                                        id="subTitle"
+                                        name="sub_title"
+                                        id="sub_title"
                                         onChange={handleFieldChange}
-                                        value={solutionAndServices.subTitle}
+                                        value={solutionAndServices.sub_title}
                                         className={`form-control`}
                                     />
                                 </FormGroup>
                                 <Row>
                                     <Col sm={9}>
-                                        <div>
+                                        {/* <div>
                                             <Label for="infoText">Description</Label>
                                             <CKEditor
                                                 config={ckEditorConfig}
@@ -245,7 +225,33 @@ const SolutionAndServicesForm = (props) => {
                                                     })
                                                 }
                                             />
-                                        </div>
+                                        </div> */}
+
+                                        <FormGroup className="mb-1">
+                                          <Label for="sub_title">Description</Label>
+                                          <Input
+                                            name="description"
+                                            id="description"
+                                            onChange={handleFieldChange}
+                                            value={solutionAndServices.description}
+                                            className={`form-control`}
+                                            type="textarea"
+                                            rows="6"
+                                          />
+                                      </FormGroup>
+                                      <FormGroup className="mb-1">
+                                          <Label for="type">Type</Label>
+                                              <Select
+                                                value={selectedType}
+                                                onChange={handleTypeChange}
+                                                options={options}
+                                                name="type"
+                                                placeholder="Type"
+                                                isSearchable={options}
+                                              />
+                                      </FormGroup>
+
+
                                     </Col>
                                     <Col sm={3}>
                                         <FormGroup className="">
@@ -270,17 +276,6 @@ const SolutionAndServicesForm = (props) => {
                                         </FormGroup>
                                     </Col>
                                 </Row>
-                                <FormGroup className="mb-1">
-                                    <Label for="type">Type</Label>
-                                        <Select
-                                          value={solutionAndServices.selectedType}
-                                          onChange={handleTypeChange}
-                                          options={options}
-                                          name="type"
-                                          placeholder="Type"
-                                          isSearchable={options}
-                                        />
-                                </FormGroup>
                             </Form>
                         )}
                     </Formik>
@@ -293,64 +288,6 @@ const SolutionAndServicesForm = (props) => {
                     refreshData={getGalleryImages}
                 />
             </Card>
-            {/* //!--------Arabic Version---------- */}
-
-            {isEdit && (
-
-                <Card className="feeding-advisor-arabic-form">
-                    <CardHeader>
-                        <CardTitle>Arabic Form</CardTitle>
-                    </CardHeader>
-                    <CardBody>
-                        <Formik
-                            initialValues={{
-                                required: "",
-                            }}
-                            validationSchema={formSchema}
-                        >
-                            {({ errors, touched }) => (
-                                <Form>
-                                    <FormGroup className="mb-1">
-                                        <Label for="name">Title</Label>
-                                        <Field
-                                            name="name"
-                                            id="name"
-                                            value={solutionAndServices?.arabic?.name}
-                                            onChange={handleArabicOnChange}
-                                            className={`form-control`}
-                                        />
-                                    </FormGroup>
-
-                                    <Row>
-                                        <Col sm={12}>
-                                            <div>
-                                                <Label for="infoText">Sub-Title</Label>
-                                                <CKEditor
-                                                    config={ckEditorConfig}
-                                                    onBeforeLoad={(CKEDITOR) =>
-                                                        (CKEDITOR.disableAutoInline = true)
-                                                    }
-                                                    data={solutionAndServices?.arabic?.description}
-                                                    onChange={(e) => handleArabicEditor(e.editor.getData())}
-                                                />
-                                            </div>
-                                        </Col>
-                                    </Row>
-
-                                    {/* <Button.Ripple
-                                        onClick={handleSubmit}
-                                        color="primary"
-                                        type="submit"
-                                        className="mt-2"
-                                    >
-                                        {isEdit ? "Edit" : "Add"}
-                                    </Button.Ripple> */}
-                                </Form>
-                            )}
-                        </Formik>
-                    </CardBody>
-                </Card>
-            )}
 
             <Card>
                 <CardBody>

@@ -116,8 +116,8 @@ const TeamForm = lazy(() => import("./views/dashboard/Team/TeamForm"));
 const MediaCenterList = lazy(() => import("./views/dashboard/mediaCenter/MediaCenterList"));
 const MediaCenterForm = lazy(() => import("./views/dashboard/mediaCenter/MediaCenterForm"));
 
-const ProjectsList = lazy(() => import("./views/dashboard/projects/ProjectsList"));
-const ProjectsForm = lazy(() => import("./views/dashboard/projects/ProjectsForm"));
+const IndustryList = lazy(() => import("./views/dashboard/Industry/IndustryList"));
+const IndustryForm = lazy(() => import("./views/dashboard/Industry/IndustryForm"));
 
 const SolutionAndServicesList = lazy(() => import("./views/dashboard/SolutionAndServices/SolutionAndServicesList"));
 const SolutionAndServicesForm = lazy(() => import("./views/dashboard/SolutionAndServices/SolutionAndServicesForm"));
@@ -493,9 +493,9 @@ class AppRouter extends React.Component {
             <AppRoute path="/MediaCenter/form" component={MediaCenterForm} />
             <AppRoute path="/MediaCenter" component={MediaCenterList} />
 
-            <AppRoute path="/Projects/form/edit/:id" component={ProjectsForm} />
-            <AppRoute path="/Projects/form" component={ProjectsForm} />
-            <AppRoute path="/Projects" component={ProjectsList} />
+            <AppRoute path="/Industry/form/edit/:id" component={IndustryForm} />
+            <AppRoute path="/Industry/form" component={IndustryForm} />
+            <AppRoute path="/Industry" component={IndustryList} />
 
             <AppRoute path="/SolutionAndServices/form/edit/:id" component={SolutionAndServicesForm} />
             <AppRoute path="/SolutionAndServices/form" component={SolutionAndServicesForm} />

@@ -9,11 +9,12 @@ import {
     Label,
     Col,
     Row,
+    Input
 } from "reactstrap";
 import { useParams, useHistory } from "react-router-dom";
 import { Formik, Field, Form } from "formik";
 import * as Yup from "yup";
-import "./ProjectsForm.scss";
+import "./IndustryForm.scss";
 import CKEditor from "ckeditor4-react";
 import { ckEditorConfig } from "../../../../utils/data";
 import GalleryModal from "../../gallery-modal/GalleryModal";
@@ -29,12 +30,13 @@ const initialObj = {
     name: "",
     description: "",
     avatar: "",
+    alt_tag : "alt"
 };
 
-const ProjectForm = (props) => {
+const IndustryForm = (props) => {
     const history = useHistory();
     const { id } = useParams();
-    const [project, setProject] = useState({ ...initialObj });
+    const [industry, setIndustry] = useState({ ...initialObj });
     const [isEdit, setIsEdit] = useState(false);
     const [modalShow, setModalShow] = React.useState(false);
     const [imagesData, setImagesData] = useState([]);
@@ -66,41 +68,28 @@ const ProjectForm = (props) => {
             });
     }
 
-    //!--------Call Article_category Api for Edit----
     useEffect(() => {
         if (id && id !== "") {
             setIsEdit(true);
-            API.get(`/project/${id}`)
+            API.get(`/industries/${id}`)
                 .then((response) => {
-                    // debugger;
-                    if (!response.data.data.arabic) {
-                        response.data.data.arabic = initialObj.arabic;
-                    }
+
                     if (response.status === 200 || response.status === 201) {
-                        setProject(response.data.data);
-                        // console.log(mentors);
+                        setIndustry(response.data.data);
                     }
                 })
                 .catch((err) => console.log(err));
         }
     }, []);
 
-    useEffect(
-        () => {
-            setProject({
-                ...project,
-                route: project.name.replace(/\s+/g, "-").toLocaleLowerCase(),
-            });
-        },
-        isEdit ? [] : [project.name]
-    );
-
     const handleImageSelect = (e, index) => {
+      // console.log(imagesData[index].alt_tag)
         if (e.target.checked) {
             if (isSingle && !isBanner) {
-                setProject({
-                    ...project,
+                setIndustry({
+                    ...industry,
                     avatar: imagesData[index].url,
+                    alt_tag: imagesData[index].alt_tag
                 });
                 setThumbnailPreview(imagesData[index].url);
                 setTimeout(() => {
@@ -124,50 +113,33 @@ const ProjectForm = (props) => {
     //!-----------Handle Input Fields---------
 
     const handleFieldChange = (e) => {
-        let updatedValues = { ...project };
+      let updatedValues = { ...industry };
         updatedValues[e.target.name] = e.target.value;
-        setProject(updatedValues);
-    };
-    //! Handle Arbic OnChnage
-    const handleArabicOnChange = (e) => {
-        // debugger;
-        let updatedValue = { ...project };
-        updatedValue.arabic[e.target.name] = e.target.value;
-        setProject(updatedValue);
-    };
-    //! ***Handle Arabic Editor***
-    const handleArabicEditor = (value) => {
-        // debugger;
-        let updatedValue = { ...project };
-        updatedValue.arabic.description = value;
-        setProject(updatedValue);
-    };
+        setIndustry(updatedValues);
+    }
 
     //!------------------Submit and Edit---------------
     const handleSubmit = () => {
-        let updatedData = { ...project };
-        console.log("===updatedData");
-        console.log(updatedData);
-        return false;
-        // updatedData.arabic.featured_img = updatedData.featured_img;
+        let updatedData = { ...industry };
+
         if (isEdit) {
-            let updateId = updatedData.route;
+            let updateId = updatedData._id;
             delete updatedData["_id"];
-            API.put(`/project/${updateId}`, updatedData)
+            API.put(`/industries/${updateId}`, updatedData)
                 .then((response) => {
                     if (response.status === 200 || response.status === 201) {
                         alert("Team updated successfully");
-                        history.push("/Team/list");
+                        history.push("/Industry/list");
                     }
                 })
                 .catch((err) => alert("Something went wrong"));
         }
         else {
-            API.post(`/project`, project)
+            API.post(`/industries`, industry)
                 .then((response) => {
                     if (response.status === 200 || response.status === 201) {
                         alert("Mentors added successfully");
-                        history.push("/Team/list");
+                        history.push("/Industry/list");
                     }
                 })
                 .catch((err) => console.log(err));
@@ -179,7 +151,7 @@ const ProjectForm = (props) => {
             <Card className="feeding-advisor-form">
                 <CardHeader>
                     <CardTitle>
-                        Our Projects {isEdit ? "Edit" : ""} Form
+                        Our Industries {isEdit ? "Edit" : ""} Form
                     </CardTitle>
                 </CardHeader>
                 <CardBody>
@@ -191,42 +163,71 @@ const ProjectForm = (props) => {
                     >
                         {({ errors, touched }) => (
                             <Form>
-                                <FormGroup className="mb-1">
-                                    <Label for="name">Title</Label>
-                                    <Field
-                                        name="name"
-                                        id="name"
-                                        onChange={handleFieldChange}
-                                        value={project.name}
-                                        className={`form-control`}
-                                    />
-                                </FormGroup>
                                 <Row>
                                     <Col sm={9}>
-                                        <div>
+                                    <FormGroup className="mb-1">
+                                        <Label for="name">Title</Label>
+                                        <Field
+                                            name="name"
+                                            id="name"
+                                            onChange={handleFieldChange}
+                                            value={industry.name}
+                                            className={`form-control`}
+                                        />
+                                    </FormGroup>
+                                    <FormGroup className="mb-1">
+                                        <Label for="name">Description</Label>
+                                        {/* <Field
+                                            name="description"
+                                            id="description"
+                                            onChange={handleFieldChange}
+                                            value={industry.description}
+                                            className={`form-control`}
+                                        /> */}
+                                        <Input
+                                            name="description"
+                                            id="description"
+                                            onChange={handleFieldChange}
+                                            value={industry.description}
+                                            className={`form-control`}
+                                            type="textarea"
+                                            rows="4"
+                                        />
+                                    </FormGroup>
+                                    {/* <FormGroup className="mb-1">
+                                        <Label for="name">Title</Label>
+                                        <Field
+                                            name="name"
+                                            id="name"
+                                            onChange={handleFieldChange}
+                                            value={industry.name}
+                                            className={`form-control`}
+                                        />
+                                    </FormGroup> */}
+                                        {/* <div>
                                             <Label for="infoText">Description</Label>
                                             <CKEditor
                                                 config={ckEditorConfig}
                                                 onBeforeLoad={(CKEDITOR) =>
                                                     (CKEDITOR.disableAutoInline = true)
                                                 }
-                                                data={project.description}
+                                                data={industry.description}
                                                 onChange={(e) =>
-                                                    setProject({
-                                                        ...project,
+                                                    handle({
+                                                        ...industry,
                                                         description: e.editor.getData(),
                                                     })
                                                 }
                                             />
-                                        </div>
+                                        </div> */}
                                     </Col>
                                     <Col sm={3}>
                                         <FormGroup className="">
                                             <Label for="avatar">Featured Image</Label>
                                             <div className="clearfix" />
                                             <div className="img-preview-wrapper">
-                                                {project.avatar !== "" && (
-                                                    <img src={project.avatar} alt="" className="img-fluid" />
+                                                {industry.avatar !== "" && (
+                                                    <img src={industry.avatar} alt="" className="img-fluid" />
                                                 )}
                                             </div>
                                             <Button.Ripple
@@ -255,64 +256,6 @@ const ProjectForm = (props) => {
                     refreshData={getGalleryImages}
                 />
             </Card>
-            {/* //!--------Arabic Version---------- */}
-
-            {isEdit && (
-
-                <Card className="feeding-advisor-arabic-form">
-                    <CardHeader>
-                        <CardTitle>Arabic Form</CardTitle>
-                    </CardHeader>
-                    <CardBody>
-                        <Formik
-                            initialValues={{
-                                required: "",
-                            }}
-                            validationSchema={formSchema}
-                        >
-                            {({ errors, touched }) => (
-                                <Form>
-                                    <FormGroup className="mb-1">
-                                        <Label for="name">Title</Label>
-                                        <Field
-                                            name="name"
-                                            id="name"
-                                            value={project?.arabic?.name}
-                                            onChange={handleArabicOnChange}
-                                            className={`form-control`}
-                                        />
-                                    </FormGroup>
-
-                                    <Row>
-                                        <Col sm={12}>
-                                            <div>
-                                                <Label for="infoText">Sub-Title</Label>
-                                                <CKEditor
-                                                    config={ckEditorConfig}
-                                                    onBeforeLoad={(CKEDITOR) =>
-                                                        (CKEDITOR.disableAutoInline = true)
-                                                    }
-                                                    data={project?.arabic?.description}
-                                                    onChange={(e) => handleArabicEditor(e.editor.getData())}
-                                                />
-                                            </div>
-                                        </Col>
-                                    </Row>
-
-                                    {/* <Button.Ripple
-                                        onClick={handleSubmit}
-                                        color="primary"
-                                        type="submit"
-                                        className="mt-2"
-                                    >
-                                        {isEdit ? "Edit" : "Add"}
-                                    </Button.Ripple> */}
-                                </Form>
-                            )}
-                        </Formik>
-                    </CardBody>
-                </Card>
-            )}
 
             <Card>
                 <CardBody>
@@ -331,4 +274,4 @@ const ProjectForm = (props) => {
     );
 };
 
-export default ProjectForm;
+export default IndustryForm;
