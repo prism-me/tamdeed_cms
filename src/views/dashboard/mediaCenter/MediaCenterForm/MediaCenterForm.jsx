@@ -9,6 +9,7 @@ import {
     Label,
     Col,
     Row,
+    Input
 } from "reactstrap";
 import { useParams, useHistory } from "react-router-dom";
 import { Formik, Field, Form } from "formik";
@@ -33,10 +34,13 @@ const formSchema = Yup.object().shape({
 });
 
 const initialObj = {
-    description: "",
-    avatar: "",
-    type: "",
-    selectedOption: null,
+    name :"",
+    img: "",
+    media_type: "",
+    alt_tag: "",
+    link: "",
+    short_description: "",
+    long_description : ""
 };
 
 const MediaCenterForm = (props) => {
@@ -48,6 +52,7 @@ const MediaCenterForm = (props) => {
     const [imagesData, setImagesData] = useState([]);
     const [isSingle, setIsSingle] = useState(false);
     const [thumbnailPreview, setThumbnailPreview] = useState("");
+    const [selectedType, setSelectedType] = useState(null);
     const [isBanner, setIsBanner] = useState(false);
 
     //!------------Gallery--------
@@ -78,14 +83,16 @@ const MediaCenterForm = (props) => {
     useEffect(() => {
         if (id && id !== "") {
             setIsEdit(true);
-            API.get(`/media/${id}`)
+            API.get(`/news/${id}`)
                 .then((response) => {
                     // debugger;
-                    if (!response.data.data.arabic) {
-                        response.data.data.arabic = initialObj.arabic;
-                    }
+
                     if (response.status === 200 || response.status === 201) {
                         setMedia(response.data.data);
+                        let a = {
+                          value: response.data.data.media_type, label: response.data.data.media_type
+                        }
+                        setSelectedType(a);
                         // console.log(mentors);
                     }
                 })
@@ -108,7 +115,8 @@ const MediaCenterForm = (props) => {
             if (isSingle && !isBanner) {
                 setMedia({
                     ...media,
-                    avatar: imagesData[index].url,
+                    img: imagesData[index].url,
+                    alt_tag: imagesData[index].alt_tag
                 });
                 setThumbnailPreview(imagesData[index].url);
                 setTimeout(() => {
@@ -139,40 +147,24 @@ const MediaCenterForm = (props) => {
 
     const handleTypeChange = selectedOption => {
       let updatedValues = { ...media };
-        // console.log(updatedValues.designation.value)
-        updatedValues.type = selectedOption.value;
-        updatedValues.selectedOption = selectedOption;
+        updatedValues.media_type = selectedOption.value;
+        setSelectedType(selectedOption);
         setMedia(updatedValues);
-    };
-    //! Handle Arbic OnChnage
-    const handleArabicOnChange = (e) => {
-        // debugger;
-        let updatedValue = { ...media };
-        updatedValue.arabic[e.target.name] = e.target.value;
-        setMedia(updatedValue);
-    };
-    //! ***Handle Arabic Editor***
-    const handleArabicEditor = (value) => {
-        // debugger;
-        let updatedValue = { ...media };
-        updatedValue.arabic.description = value;
-        setMedia(updatedValue);
     };
 
     //!------------------Submit and Edit---------------
     const handleSubmit = () => {
         let updatedData = { ...media };
         console.log("===updatedData");
-        let formdata = JSON.parse(JSON.stringify(updatedData))
-        // let formdata = updatedData;
-        delete formdata.selectedOption;
-        console.log(updatedData,formdata);
-        return false;
+        // let formdata = JSON.parse(JSON.stringify(updatedData))
+        // // let formdata = updatedData;
+        // delete formdata.selectedOption;
+        // delete formdata._id;
         // updatedData.arabic.featured_img = updatedData.featured_img;
         if (isEdit) {
-            let updateId = updatedData.route;
+            let updateId = updatedData._id;
             delete updatedData["_id"];
-            API.put(`/media/${updateId}`, updatedData)
+            API.put(`/news/${updateId}`, updatedData)
                 .then((response) => {
                     if (response.status === 200 || response.status === 201) {
                         alert("MediaCenter updated successfully");
@@ -182,7 +174,7 @@ const MediaCenterForm = (props) => {
                 .catch((err) => alert("Something went wrong"));
         }
         else {
-            API.post(`/media`, media)
+            API.post(`/news`, updatedData)
                 .then((response) => {
                     if (response.status === 200 || response.status === 201) {
                         alert("Mentors added successfully");
@@ -211,42 +203,69 @@ const MediaCenterForm = (props) => {
                         {({ errors, touched }) => (
                             <Form>
                                 <FormGroup className="mb-1">
+                                        <Label for="name">Title</Label>
+                                        <Field
+                                            name="name"
+                                            id="name"
+                                            value={media.name}
+                                            onChange={handleFieldChange}
+                                            className={`form-control`}
+                                        />
+                                </FormGroup>
+
+                                <FormGroup className="mb-1">
                                     <Label for="designation">Media type</Label>
                                         <Select
-                                          value={media.selectedOption}
                                           onChange={handleTypeChange}
+                                          value={selectedType}
                                           options={options}
-                                          name="type"
+                                          name="media_type"
                                           placeholder="Media Type"
                                           isSearchable={options}
                                         />
                                 </FormGroup>
+                                <FormGroup className="mb-1">
+                                        <Label for="name">Short description</Label>
+                                        <Field
+                                            name="short_description"
+                                            id="short_description"
+                                            value={media.short_description}
+                                            onChange={handleFieldChange}
+                                            className={`form-control`}
+                                        />
+                                </FormGroup>
                                 <Row>
                                     <Col sm={9}>
-                                        <div>
-                                            <Label for="infoText">Sub-Title</Label>
-                                            <CKEditor
-                                                config={ckEditorConfig}
-                                                onBeforeLoad={(CKEDITOR) =>
-                                                    (CKEDITOR.disableAutoInline = true)
-                                                }
-                                                data={media.description}
-                                                onChange={(e) =>
-                                                    setMedia({
-                                                        ...media,
-                                                        description: e.editor.getData(),
-                                                    })
-                                                }
-                                            />
-                                        </div>
+                                        <FormGroup className="mb-1">
+                                          <Label for="sub_title">Long Description</Label>
+                                          <Input
+                                            name="long_description"
+                                            id="long_description"
+                                            onChange={handleFieldChange}
+                                            value={media.long_description}
+                                            className={`form-control`}
+                                            type="textarea"
+                                            rows="6"
+                                          />
+                                      </FormGroup>
+                                      <FormGroup className="mb-1">
+                                        <Label for="name">Link</Label>
+                                        <Field
+                                            name="link"
+                                            id="link"
+                                            value={media.link}
+                                            onChange={handleFieldChange}
+                                            className={`form-control`}
+                                        />
+                                      </FormGroup>
                                     </Col>
                                     <Col sm={3}>
                                         <FormGroup className="">
-                                            <Label for="avatar">Featured Image</Label>
+                                            <Label for="img">Featured Image</Label>
                                             <div className="clearfix" />
                                             <div className="img-preview-wrapper">
-                                                {media.avatar !== "" && (
-                                                    <img src={media.avatar} alt="" className="img-fluid" />
+                                                {media.img !== "" && (
+                                                    <img src={media.img} alt="" className="img-fluid" />
                                                 )}
                                             </div>
                                             <Button.Ripple
@@ -275,64 +294,6 @@ const MediaCenterForm = (props) => {
                     refreshData={getGalleryImages}
                 />
             </Card>
-            {/* //!--------Arabic Version---------- */}
-
-            {isEdit && (
-
-                <Card className="feeding-advisor-arabic-form">
-                    <CardHeader>
-                        <CardTitle>Arabic Form</CardTitle>
-                    </CardHeader>
-                    <CardBody>
-                        <Formik
-                            initialValues={{
-                                required: "",
-                            }}
-                            validationSchema={formSchema}
-                        >
-                            {({ errors, touched }) => (
-                                <Form>
-                                    <FormGroup className="mb-1">
-                                        <Label for="name">Title</Label>
-                                        <Field
-                                            name="name"
-                                            id="name"
-                                            value={media?.arabic?.name}
-                                            onChange={handleArabicOnChange}
-                                            className={`form-control`}
-                                        />
-                                    </FormGroup>
-
-                                    <Row>
-                                        <Col sm={12}>
-                                            <div>
-                                                <Label for="infoText">Sub-Title</Label>
-                                                <CKEditor
-                                                    config={ckEditorConfig}
-                                                    onBeforeLoad={(CKEDITOR) =>
-                                                        (CKEDITOR.disableAutoInline = true)
-                                                    }
-                                                    data={media?.arabic?.description}
-                                                    onChange={(e) => handleArabicEditor(e.editor.getData())}
-                                                />
-                                            </div>
-                                        </Col>
-                                    </Row>
-
-                                    {/* <Button.Ripple
-                                        onClick={handleSubmit}
-                                        color="primary"
-                                        type="submit"
-                                        className="mt-2"
-                                    >
-                                        {isEdit ? "Edit" : "Add"}
-                                    </Button.Ripple> */}
-                                </Form>
-                            )}
-                        </Formik>
-                    </CardBody>
-                </Card>
-            )}
 
             <Card>
                 <CardBody>

@@ -60,16 +60,22 @@ class SolutionAndServicesList extends React.Component {
                         </div>
                         <div className="user-info text-truncate ml-xl-50 ml-0">
                             <span
-                                title={row.name}
+                                title={row.title}
                                 className="d-block text-bold-500 text-truncate mb-0"
                             >
-                                {row.name}
+                                {row.title}
                             </span>
                         </div>
                     </div>
                 ),
             },
 
+            {
+                name: "Type",
+                selector: "type",
+                sortable: true,
+                cell: (row) => <p className="text-bold-500 mb-0">{row.type}</p>,
+            },
             {
                 name: "Sub-Title",
                 selector: "description",

@@ -48,12 +48,12 @@ class MediaCenterList extends React.Component {
                 cell: (row) => (
                     <div className="d-flex flex-xl-row flex-column align-items-xl-center align-items-start py-xl-0 py-1">
                         <div className="user-img ml-xl-0 ml-2">
-                            {row.avatar?.startsWith("http") ? (
+                            {row.img?.startsWith("http") ? (
                                 <img
                                     className="img-fluid rounded-circle"
                                     height="36"
                                     width="36"
-                                    src={row.avatar}
+                                    src={row.img}
                                     alt={row.alt_tag}
                                 />
                             ) : null}
@@ -71,10 +71,22 @@ class MediaCenterList extends React.Component {
             },
 
             {
-                name: "Sub-Title",
-                selector: "description",
+                name: "Media Type",
+                selector: "media_type",
                 sortable: true,
-                cell: (row) => <p className="text-bold-500 mb-0">{row.description}</p>,
+                cell: (row) => <p className="text-bold-500 mb-0">{row.media_type}</p>,
+            },
+            {
+                name: "Link",
+                selector: "link",
+                sortable: true,
+                cell: (row) => <p className="text-bold-500 mb-0">{row.link}</p>,
+            },
+            {
+                name: "Short Description",
+                selector: "short_description",
+                sortable: true,
+                cell: (row) => <p className="text-bold-500 mb-0">{row.short_description}</p>,
             },
 
             {

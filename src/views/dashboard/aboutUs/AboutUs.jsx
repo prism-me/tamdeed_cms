@@ -586,8 +586,8 @@ const AboutUs = () => {
                     refreshData={getGalleryImages}
                 />
             </Card>
-                        {/* //! **************Core Values Section*************** */}
-                        <Card className="slider-bottom-section">
+
+            <Card className="slider-bottom-section">
                 <CardHeader>
                     <CardTitle>Core Values Section</CardTitle>
                 </CardHeader>

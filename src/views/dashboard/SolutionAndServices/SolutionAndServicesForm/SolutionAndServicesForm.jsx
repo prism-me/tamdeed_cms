@@ -83,10 +83,6 @@ const SolutionAndServicesForm = (props) => {
             setIsEdit(true);
             API.get(`/solutions/${id}`)
                 .then((response) => {
-                    // debugger;
-                    if (!response.data.data.arabic) {
-                        response.data.data.arabic = initialObj.arabic;
-                    }
                     if (response.status === 200 || response.status === 201) {
                         setsolutionAndServices(response.data.data);
                         let a = {

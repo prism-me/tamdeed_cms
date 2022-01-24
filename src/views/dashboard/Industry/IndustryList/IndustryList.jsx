@@ -71,7 +71,7 @@ class IndustryList extends React.Component {
             },
 
             {
-                name: "Sub-Title",
+                name: "Description",
                 selector: "description",
                 sortable: true,
                 cell: (row) => <p className="text-bold-500 mb-0">{row.description}</p>,
