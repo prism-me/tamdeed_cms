@@ -1,5 +1,5 @@
 import React from "react";
-import "./SolutionAndServicesList.scss";
+import "./ReferenceProjectList.scss";
 import {
     Card,
     CardBody,
@@ -21,7 +21,7 @@ const CustomHeader = (props) => {
                 <Button.Ripple
                     color="primary"
                     onClick={() => {
-                        props.history.push("/SolutionAndServices/form");
+                        props.history.push("/ReferenceProject/form");
                     }}
                 >
                     Add New
@@ -37,12 +37,18 @@ const CustomHeader = (props) => {
     );
 };
 
-class SolutionAndServicesList extends React.Component {
+class ReferenceProjectList extends React.Component {
     state = {
         columns: [
-            {
+              {
                 name: "Name",
                 selector: "name",
+                sortable: true,
+                cell: (row) => <p className="text-bold-500 mb-0">{row.name}</p>,
+            },
+            {
+                name: "Image",
+                selector: "avatar",
                 sortable: true,
                 minWidth: "200px",
                 cell: (row) => (
@@ -58,31 +64,9 @@ class SolutionAndServicesList extends React.Component {
                                 />
                             ) : null}
                         </div>
-                        <div className="user-info text-truncate ml-xl-50 ml-0">
-                            <span
-                                title={row.title}
-                                className="d-block text-bold-500 text-truncate mb-0"
-                            >
-                                {row.title}
-                            </span>
-                        </div>
                     </div>
                 ),
             },
-
-            {
-                name: "Type",
-                selector: "type",
-                sortable: true,
-                cell: (row) => <p className="text-bold-500 mb-0">{row.type}</p>,
-            },
-            {
-                name: "Sub-Title",
-                selector: "sub_title",
-                sortable: true,
-                cell: (row) => <p className="text-bold-500 mb-0">{row.sub_title}</p>,
-            },
-
             {
                 name: "Actions",
                 selector: "_id",
@@ -96,7 +80,7 @@ class SolutionAndServicesList extends React.Component {
                                 color: "#1A2C52 ",
                             }}
                             onClick={() => {
-                                this.props.history.push(`/SolutionAndServices/form/edit/${row._id}`);
+                                this.props.history.push(`/ReferenceProject/form/edit/${row._id}`);
                             }}
                             className="action-icon-edit"
                         />
@@ -119,11 +103,11 @@ class SolutionAndServicesList extends React.Component {
         value: "",
     };
     componentDidMount() {
-        this.getArticleCategories();
+        this.getIndustries();
     }
 
-    getArticleCategories = () => {
-        API.get("/solutions")
+    getIndustries = () => {
+        API.get("/projects")
             .then((response) => {
                 // console.log("Mentor response", response.data.data);
                 this.setState({ data: response.data.data });
@@ -132,10 +116,10 @@ class SolutionAndServicesList extends React.Component {
     };
 
     handleDelete = (id) => {
-        API.delete(`/solutions/${id}`)
+        API.delete(`/projects/${id}`)
             .then((response) => {
                 // alert("Mentor deleted successfully");
-                this.getArticleCategories();
+                this.getIndustries();
             })
             .catch((err) => console.log(err));
     };
@@ -190,7 +174,7 @@ class SolutionAndServicesList extends React.Component {
         return (
             <Card>
                 <CardHeader>
-                    <CardTitle>Solution And Services</CardTitle>
+                    <CardTitle>Reference Projects</CardTitle>
                 </CardHeader>
                 <CardBody className="rdt_Wrapper">
                     <DataTable
@@ -214,4 +198,4 @@ class SolutionAndServicesList extends React.Component {
     }
 }
 
-export default SolutionAndServicesList;
+export default ReferenceProjectList;

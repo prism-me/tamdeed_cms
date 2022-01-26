@@ -95,8 +95,6 @@ const TeamForm = (props) => {
                           value: response.data.data.designation, label: response.data.data.designation
                         }
                         setSelectedOption(a)
-                        console.log("response.data.data");
-                        console.log(response.data.data);
                     }
                 })
                 .catch((err) => console.log(err));

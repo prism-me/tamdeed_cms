@@ -119,6 +119,12 @@ const MediaCenterForm = lazy(() => import("./views/dashboard/mediaCenter/MediaCe
 const IndustryList = lazy(() => import("./views/dashboard/Industry/IndustryList"));
 const IndustryForm = lazy(() => import("./views/dashboard/Industry/IndustryForm"));
 
+const ReferenceProjectList = lazy(() => import("./views/dashboard/ReferenceProject/ReferenceProjectList"));
+const ReferenceProjectForm = lazy(() => import("./views/dashboard/ReferenceProject/ReferenceProjectForm"));
+
+const PartnerList = lazy(() => import("./views/dashboard/Partner/PartnerList"));
+const PartnerForm = lazy(() => import("./views/dashboard/Partner/PartnerForm"));
+
 const SolutionAndServicesList = lazy(() => import("./views/dashboard/SolutionAndServices/SolutionAndServicesList"));
 const SolutionAndServicesForm = lazy(() => import("./views/dashboard/SolutionAndServices/SolutionAndServicesForm"));
 
@@ -496,6 +502,14 @@ class AppRouter extends React.Component {
             <AppRoute path="/Industry/form/edit/:id" component={IndustryForm} />
             <AppRoute path="/Industry/form" component={IndustryForm} />
             <AppRoute path="/Industry" component={IndustryList} />
+
+            <AppRoute path="/Partner/form/edit/:id" component={PartnerForm} />
+            <AppRoute path="/Partner/form" component={PartnerForm} />
+            <AppRoute path="/Partner" component={PartnerList} />
+
+            <AppRoute path="/ReferenceProject/form/edit/:id" component={ReferenceProjectForm} />
+            <AppRoute path="/ReferenceProject/form" component={ReferenceProjectForm} />
+            <AppRoute path="/ReferenceProject" component={ReferenceProjectList} />
 
             <AppRoute path="/SolutionAndServices/form/edit/:id" component={SolutionAndServicesForm} />
             <AppRoute path="/SolutionAndServices/form" component={SolutionAndServicesForm} />

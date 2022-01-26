@@ -50,6 +50,24 @@ const navigationConfig = [
     permissions: ["admin", "editor"],
     navLink: "/Industry/list",
   },
+  // !--------------Reference Project-------
+  {
+    id: "ReferenceProjectForm",
+    title: "Reference Project",
+    type: "item",
+    icon: <Icon.Users size={12} />,
+    permissions: ["admin", "editor"],
+    navLink: "/ReferenceProject/list",
+  },
+  // !-------------- Partners / Brands -------
+  {
+    id: "PartnerForm",
+    title: "Partners",
+    type: "item",
+    icon: <Icon.Users size={12} />,
+    permissions: ["admin", "editor"],
+    navLink: "/Partner/list",
+  },
 
   // !--------------SolutionAndServices-------
   {
@@ -69,137 +87,6 @@ const navigationConfig = [
     permissions: ["admin", "editor"],
     navLink: "/MediaCenter/list",
   },
-
-  //! -----------academics Page---------
-  {
-    id: "academics",
-    title: "Academics",
-    type: "item",
-    icon: <Icon.CheckCircle size={12} />,
-    permissions: ["admin", "editor"],
-    navLink: "/academics",
-  },
-
-  //! -----------AgsPortal---------
-  {
-    id: "AgsPortal",
-    title: "Ags Portal",
-    type: "item",
-    icon: <Icon.LogOut size={12} />,
-    permissions: ["admin", "editor"],
-    navLink: "/AgsPortal",
-  },
-  //!--------------Enroll-------
-  {
-    id: "Enroll",
-    title: "Enroll",
-    type: "item",
-    icon: <Icon.ExternalLink size={12} />,
-    permissions: ["admin", "editor"],
-    navLink: "/Enroll",
-  },
-  //!--------------Career-------
-  {
-    id: "career",
-    title: "Career",
-    type: "item",
-    icon: <Icon.Video size={12} />,
-    permissions: ["admin", "editor"],
-    navLink: "/career",
-  },
-  //!--------------Post Opportunuty-------
-  {
-    id: "JobOpportunuty",
-    title: "Job Opportunuty",
-    type: "item",
-    icon: <Icon.Calendar size={12} />,
-    permissions: ["admin", "editor"],
-    navLink: "/post-opportunity/list",
-  },
-  //!-----------Our Curriculum----------
-  {
-    id: "OurCurriculum",
-    title: "Our Curriculum",
-    type: "collapse",
-    icon: <Icon.BookOpen size={15} />,
-    children: [
-      {
-        id: "Kindergarten",
-        title: "Kindergarten",
-        type: "item",
-        icon: <Icon.Circle size={12} />,
-        permissions: ["admin", "editor"],
-        navLink: "/kindergarten",
-      },
-      {
-        id: "PrimarySchool",
-        title: "Primary School",
-        type: "item",
-        icon: <Icon.Circle size={12} />,
-        permissions: ["admin", "editor"],
-        navLink: "/primarySchool",
-      },
-      {
-        id: "MiddleSchool",
-        title: "Middle School",
-        type: "item",
-        icon: <Icon.Circle size={12} />,
-        permissions: ["admin", "editor"],
-        navLink: "/MiddleSchool",
-      },
-    ],
-  },
-  //!--------------Student Care-------
-  {
-    id: "StudentCareList",
-    title: "Student Care List",
-    type: "item",
-    icon: <Icon.Circle size={12} />,
-    permissions: ["admin", "editor"],
-    navLink: "/StudentCare/list",
-  },
-
-  //!--------------Events-------
-  {
-    id: "Events",
-    title: "Events",
-    type: "item",
-    icon: <Icon.Calendar size={12} />,
-    permissions: ["admin", "editor"],
-    navLink: "/Events/list",
-  },
-
-    //!--------------Mentors-------
-    {
-      id: "MentorsForm",
-      title: "Meet Mentors",
-      type: "item",
-      icon: <Icon.Users size={12} />,
-      permissions: ["admin", "editor"],
-      navLink: "/Mentors/list",
-    },
-
-  //!--------------ExperienceAgsForm-------
-  {
-    id: "videosForm",
-    title: "Experience Ags",
-    type: "item",
-    icon: <Icon.Video size={12} />,
-    permissions: ["admin", "editor"],
-    navLink: "/experienceAgs/list",
-  },
-  //!--------------LifeAtAgsForm-------
-  {
-    id: "LifeAtAgsForm",
-    title: "Life At AGS",
-    type: "item",
-    icon: <Icon.Video size={12} />,
-    permissions: ["admin", "editor"],
-    navLink: "/LifeAtAgs/list",
-  },
-
-
-  //!--------------Pages-------
   {
     id: "pages",
     title: "Pages",
@@ -209,15 +96,147 @@ const navigationConfig = [
     navLink: "/pages",
   },
 
-  //!-------FAQ-----------
+  //! -----------academics Page---------
+  // {
+  //   id: "academics",
+  //   title: "Academics",
+  //   type: "item",
+  //   icon: <Icon.CheckCircle size={12} />,
+  //   permissions: ["admin", "editor"],
+  //   navLink: "/academics",
+  // },
+
+  //! -----------AgsPortal---------
+  // {
+  //   id: "AgsPortal",
+  //   title: "Ags Portal",
+  //   type: "item",
+  //   icon: <Icon.LogOut size={12} />,
+  //   permissions: ["admin", "editor"],
+  //   navLink: "/AgsPortal",
+  // },
+  //!--------------Enroll-------
+  // {
+  //   id: "Enroll",
+  //   title: "Enroll",
+  //   type: "item",
+  //   icon: <Icon.ExternalLink size={12} />,
+  //   permissions: ["admin", "editor"],
+  //   navLink: "/Enroll",
+  // },
+  //!--------------Career-------
   {
-    id: "questionAndAnswersForm",
-    title: "FAQ",
+    id: "career",
+    title: "Career",
     type: "item",
-    icon: <Icon.HelpCircle size={12} />,
+    icon: <Icon.Video size={12} />,
     permissions: ["admin", "editor"],
-    navLink: "/faqs/form",
+    navLink: "/career",
   },
+  // !--------------Post Opportunuty-------
+  {
+    id: "JobOpportunuty",
+    title: "Job Opportunuty",
+    type: "item",
+    icon: <Icon.Calendar size={12} />,
+    permissions: ["admin", "editor"],
+    navLink: "/post-opportunity/list",
+  },
+  //!-----------Our Curriculum----------
+  // {
+  //   id: "OurCurriculum",
+  //   title: "Our Curriculum",
+  //   type: "collapse",
+  //   icon: <Icon.BookOpen size={15} />,
+  //   children: [
+  //     {
+  //       id: "Kindergarten",
+  //       title: "Kindergarten",
+  //       type: "item",
+  //       icon: <Icon.Circle size={12} />,
+  //       permissions: ["admin", "editor"],
+  //       navLink: "/kindergarten",
+  //     },
+  //     {
+  //       id: "PrimarySchool",
+  //       title: "Primary School",
+  //       type: "item",
+  //       icon: <Icon.Circle size={12} />,
+  //       permissions: ["admin", "editor"],
+  //       navLink: "/primarySchool",
+  //     },
+  //     {
+  //       id: "MiddleSchool",
+  //       title: "Middle School",
+  //       type: "item",
+  //       icon: <Icon.Circle size={12} />,
+  //       permissions: ["admin", "editor"],
+  //       navLink: "/MiddleSchool",
+  //     },
+  //   ],
+  // },
+  //!--------------Student Care-------
+  // {
+  //   id: "StudentCareList",
+  //   title: "Student Care List",
+  //   type: "item",
+  //   icon: <Icon.Circle size={12} />,
+  //   permissions: ["admin", "editor"],
+  //   navLink: "/StudentCare/list",
+  // },
+
+  //!--------------Events-------
+  // {
+  //   id: "Events",
+  //   title: "Events",
+  //   type: "item",
+  //   icon: <Icon.Calendar size={12} />,
+  //   permissions: ["admin", "editor"],
+  //   navLink: "/Events/list",
+  // },
+
+    //!--------------Mentors-------
+    // {
+    //   id: "MentorsForm",
+    //   title: "Meet Mentors",
+    //   type: "item",
+    //   icon: <Icon.Users size={12} />,
+    //   permissions: ["admin", "editor"],
+    //   navLink: "/Mentors/list",
+    // },
+
+  //!--------------ExperienceAgsForm-------
+  // {
+  //   id: "videosForm",
+  //   title: "Experience Ags",
+  //   type: "item",
+  //   icon: <Icon.Video size={12} />,
+  //   permissions: ["admin", "editor"],
+  //   navLink: "/experienceAgs/list",
+  // },
+  //!--------------LifeAtAgsForm-------
+  // {
+  //   id: "LifeAtAgsForm",
+  //   title: "Life At AGS",
+  //   type: "item",
+  //   icon: <Icon.Video size={12} />,
+  //   permissions: ["admin", "editor"],
+  //   navLink: "/LifeAtAgs/list",
+  // },
+
+
+  //!--------------Pages-------
+
+
+  //!-------FAQ-----------
+  // {
+  //   id: "questionAndAnswersForm",
+  //   title: "FAQ",
+  //   type: "item",
+  //   icon: <Icon.HelpCircle size={12} />,
+  //   permissions: ["admin", "editor"],
+  //   navLink: "/faqs/form",
+  // },
 
   //!---------------Users------
   {

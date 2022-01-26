@@ -30,50 +30,58 @@ const formSchema = Yup.object().shape({
 const initialObj = {
   name: "home-page",
   page_id: 0,
+  section_id:0,
   slug: "home-page",
   content: {
-    banner: {
+    banner: [
+      {
       title: "",
       subtitle: "",
-      video_link: "",
-      description: "",
       image: "",
     },
-    curriculmSection: {
+    {
       title: "",
       subtitle: "",
-      description: "",
+      image: "",
     },
-    covidSection: {
+    {
       title: "",
-      description: "",
-    },
+      subtitle: "",
+      image: "",
+    }
+    ],
     meta_details: {
       title: "",
       description: "",
       schema_markup: "",
     },
-    arabic: {
-      banner: {
+    portfolio : [
+      {
+        image: "",
         title: "",
-        subtitle: "",
-        description: "",
+        subtitle:""
       },
-      curriculmSection: {
+      {
+        image: "",
         title: "",
-        subtitle: "",
-        description: "",
+        subtitle:""
       },
-      covidSection: {
+      {
+        image: "",
         title: "",
-        description: "",
+        subtitle:""
       },
-      meta_details: {
+      {
+        image: "",
         title: "",
-        description: "",
-        schema_markup: "",
+        subtitle:""
       },
-    },
+      {
+        image: "",
+        title: "",
+        subtitle:""
+      }
+    ]
   },
 };
 
@@ -84,10 +92,10 @@ const HomeForm = () => {
   const [modalShow, setModalShow] = React.useState(false);
   const [imagesData, setImagesData] = useState([]);
   const [isSingle, setIsSingle] = useState(false);
-  const [isSliderThree, setIsSliderThree] = useState(false);
-  const [isSliderTwo, setIsSliderTwo] = useState(false);
-  const [currentIndex, setCurrentIndex] = useState(-1);
-  const [isPromoImage, setIsPromoImage] = useState(false);
+  const [isBanner, setIsBanner] = useState(false);
+  const [isPortfolio, setIsPortfolio] = useState(false);
+  const [sectionID, setSectionID] = useState(0);
+
 
   //******************Gallery
   useEffect(() => {
@@ -115,49 +123,26 @@ const HomeForm = () => {
   //!-------handleSelect s3 Images-----------
   const handleImageSelect = (e, index) => {
     if (e.target.checked) {
-      //   debugger;
-      if (isSingle && !isSliderTwo) {
+
+      if(isBanner.value && !isPortfolio.value){
         let updatedImage = { ...homeData };
-        updatedImage.content.banner.image = imagesData[index].url;
-        setHomeData(updatedImage);
+            updatedImage.content.banner[isBanner.index - 1].image = imagesData[index].url;
+            setHomeData(updatedImage);
 
-        // setThumbnailPreview(imagesData.avatar);
-        setTimeout(() => {
-          setModalShow(false);
-        }, 500);
+            setTimeout(() => {
+                setModalShow(false);
+            }, 500);
       }
-      // if (isSliderTwo && !isSingle) {
-      //   let updatedImage = { ...homeData };
-      //   updatedImage.widget_content.sliderTwo.image = imagesData[index].avatar;
-      //   setHomeData(updatedImage);
 
-      //   // setThumbnailPreview(imagesData.avatar);
-      //   setTimeout(() => {
-      //     setModalShow(false);
-      //   }, 500);
-      // }
+      if(!isBanner.value && isPortfolio.value){
+        let updatedImage = { ...homeData };
+            updatedImage.content.portfolio[isPortfolio.index - 1].image = imagesData[index].url;
+            setHomeData(updatedImage);
 
-      // if (isSliderThree && !isSliderTwo && !isSingle) {
-      //   let updatedImage = { ...homeData };
-      //   updatedImage.widget_content.sliderThree.image =
-      //     imagesData[index].avatar;
-      //   setHomeData(updatedImage);
-
-      //   setTimeout(() => {
-      //     setModalShow(false);
-      //   }, 500);
-      // }
-      // if (isPromoImage && !isSingle) {
-      //   let updatedImage = { ...homeData };
-      //   updatedImage.content.promoSection[
-      //     currentIndex
-      //   ].images_detail.background_image = imagesData[index].avatar;
-      //   setHomeData(updatedImage);
-
-      //   setTimeout(() => {
-      //     setModalShow(false);
-      //   }, 500);
-      // }
+            setTimeout(() => {
+                setModalShow(false);
+            }, 500);
+      }
 
       let imagesDataUpdated = imagesData.map((x, i) => {
         if (i === index) {
@@ -182,40 +167,20 @@ const HomeForm = () => {
           let currentPage = response.data.data.find((x) => x.slug === "home-page");
           setPageData(currentPage);
           API.get(`/all_sections/${currentPage._id}`)
-            // API.get(`/all_sections/${page_id}`)
             .then((res) => {
-              // debugger;
-              if (
-                !res.data.data[res.data.data.length - 1].content &&
-                !res.data.data.content
-              ) {
-                res.data.data.content = initialObj.content;
+
+              if (res.data.data.length < 1) {
+                setHomeData({ ...initialObj });
+                console.log("===homeData if")
+                console.log(homeData)
+              } else {
+                let content = res.data.data[0]?.content;
+                setSectionID(res.data.data[0]._id);
+                setHomeData({ ...initialObj, content });
+                console.log("===homeData")
+                console.log(homeData)
               }
 
-              if (
-                !res.data.data[res.data.data.length - 1].content.meta_details
-                  .schema_markup
-              ) {
-                res.data.data[
-                  res.data.data.length - 1
-                ].content.meta_details.schema_markup =
-                  initialObj.content.meta_details.schema_markup;
-              }
-
-              if (
-                !res.data.data[res.data.data.length - 1].content.arabic
-                  .meta_details.schema_markup
-              ) {
-                res.data.data[
-                  res.data.data.length - 1
-                ].content.arabic.meta_details.schema_markup =
-                  initialObj.content.arabic.meta_details.schema_markup;
-              }
-
-              let content = res.data.data[res.data.data.length - 1].content;
-
-              //   console.log("All widgets response", widget_content);
-              setHomeData({ ...initialObj, content });
             })
             .catch((err) => console.log(err));
         }
@@ -225,166 +190,48 @@ const HomeForm = () => {
 
   //!*********** Handle Banner************
   //! __________Handle OnChange__________
-  const handleBannerOnChange = (e) => {
+  const handleBannerOnChange = (e, index) => {
     let updatedValue = { ...homeData };
-    updatedValue.content.banner[e.target.name] = e.target.value;
+    updatedValue.content.banner[index][e.target.name] = e.target.value;
     setHomeData(updatedValue);
   };
-  //! __________Handle  Editor__________
-  const handleBannerEditor = (value) => {
-    let updatedValue = { ...homeData };
-    updatedValue.content.banner.description = value;
-    setHomeData(updatedValue);
-  };
-
-  //!*********** Handle Curriculum Section************
+  //!*********** Handle Portfolio************
   //! __________Handle OnChange__________
-
-  const handleCurriculumOnChange = (e) => {
+  const handlePortfolioOnChange = (e, index) => {
     let updatedValue = { ...homeData };
-    updatedValue.content.curriculmSection[e.target.name] = e.target.value;
-    setHomeData(updatedValue);
-  };
-  //! __________Handle Editor__________
-  const handleCurriculumEditor = (value) => {
-    let updatedValue = { ...homeData };
-    updatedValue.content.curriculmSection.description = value;
-    setHomeData(updatedValue);
-  };
-  //!*********** Handle Welcome Section************
-  //! __________Handle OnChange__________
-
-  const handleCovidOnChange = (e) => {
-    let updatedValue = { ...homeData };
-    updatedValue.content.covidSection[e.target.name] = e.target.value;
-    setHomeData(updatedValue);
-  };
-  //! __________Handle Editor__________
-  const handleCovidEditor = (value) => {
-    let updatedValue = { ...homeData };
-    updatedValue.content.covidSection.description = value;
+    updatedValue.content.portfolio[index][e.target.name] = e.target.value;
     setHomeData(updatedValue);
   };
 
-  // //!----------ADD New Section------
-  // const addNewSection = () => {
-  //   let updatedValue = { ...homeData };
-  //   updatedValue.widget_content.promoSection.push({
-  //     video_link: "",
-  //     images_detail: {
-  //       title: "",
-  //       content: "",
-  //       background_image: "",
-  //     },
-  //   });
-  //   setHomeData(updatedValue);
-  // };
-  // //!--------Remove section------
-  // const removeSection = (index) => {
-  //   let updatedValue = { ...homeData };
-  //   let updatedSection = updatedValue.widget_content.promoSection.filter(
-  //     (x, i) => i !== index
-  //   );
-  //   updatedValue.widget_content.promoSection = updatedSection;
-  //   setHomeData(updatedValue);
-  // };
-  //!--------Hanlde Meta Details OnChange---------
-  const handleMetaOnChange = (e) => {
-    let updatedValue = { ...homeData };
-    updatedValue.content.meta_details[e.target.name] = e.target.value;
-    setHomeData(updatedValue);
-  };
 
-  //! *************************************************************
-  //? *******************Arabic Section Function*******************
-  //! *************************************************************
-
-  //!*********** Handle Banner************
-  //! __________Handle OnChange__________
-  const handleArabicBannerOnChange = (e) => {
-    let updatedValue = { ...homeData };
-    updatedValue.content.arabic.banner[e.target.name] =
-      e.target.value;
-    setHomeData(updatedValue);
-  };
-  //! __________Handle  Editor__________
-  const handleArabicBannerEditor = (value) => {
-    let updatedValue = { ...homeData };
-    updatedValue.content.arabic.banner.description = value;
-    setHomeData(updatedValue);
-  };
-
-  //!*********** Handle Curriculum Section************
-  //! __________Handle OnChange__________
-
-  const handleArabicCurriculumOnChange = (e) => {
-    let updatedValue = { ...homeData };
-    updatedValue.content.arabic.curriculmSection[e.target.name] =
-      e.target.value;
-    setHomeData(updatedValue);
-  };
-  //! __________Handle Editor__________
-  const handleArabicCurriculumEditor = (value) => {
-    let updatedValue = { ...homeData };
-    updatedValue.content.arabic.curriculmSection.description = value;
-    setHomeData(updatedValue);
-  };
-  //!*********** Handle Covid Section************
-  //! __________Handle OnChange__________
-
-  const handleArabicCovidOnChange = (e) => {
-    let updatedValue = { ...homeData };
-    updatedValue.content.arabic.covidSection[e.target.name] =
-      e.target.value;
-    setHomeData(updatedValue);
-  };
-  //! __________Handle Editor__________
-  const handleArabicCovidEditor = (value) => {
-    let updatedValue = { ...homeData };
-    updatedValue.content.arabic.covidSection.description = value;
-    setHomeData(updatedValue);
-  };
-  // //!----------ADD New Section------
-  // const addArabicNewSection = () => {
-  //   let updatedValue = { ...homeData };
-  //   updatedValue.widget_content.arabic.promoSection.push({
-  //     images_detail: {
-  //       title: "",
-  //       content: "",
-  //     },
-  //   });
-  //   setHomeData(updatedValue);
-  // };
-  // //!--------Remove section------
-  // const removeArabicSection = (index) => {
-  //   let updatedValue = { ...homeData };
-  //   let updatedSection = updatedValue.widget_content.arabic.promoSection.filter(
-  //     (x, i) => i !== index
-  //   );
-  //   updatedValue.widget_content.arabic.promoSection = updatedSection;
-  //   setHomeData(updatedValue);
-  // };
-  //!--------Hanlde Meta Details OnChange---------
-  const handleArabicMetaOnChange = (e) => {
-    let updatedValue = { ...homeData };
-    updatedValue.content.arabic.meta_details[e.target.name] =
-      e.target.value;
-    setHomeData(updatedValue);
-  };
   //! --------------Handle Submit-------------
   const handleSubmit = () => {
+
     let updatedData = { ...homeData, page_id: pageData._id };
-    API.post(`/sections`, updatedData)
+
+    if(sectionID){
+      API.put(`/sections/${sectionID}`, updatedData)
       .then((response) => {
-        // debugger;
-        alert("Data updated successfully");
-        window.location.reload();
+          alert("Data updated successfully");
+          window.location.reload();
       })
       .catch((err) =>
-        alert(
-          "Something went wrong, Please check your internet connect and reload page"
-        )
+          alert(
+              "Something went wrong, Please check your internet connect and reload page"
+          )
       );
+    } else {
+      API.post(`/sections`, updatedData)
+      .then((response) => {
+          alert("Data updated successfully");
+          window.location.reload();
+      })
+      .catch((err) =>
+          alert(
+              "Something went wrong, Please check your internet connect and reload page"
+          )
+      );
+    }
   };
 
   return (
@@ -414,54 +261,29 @@ const HomeForm = () => {
                       </CardHeader>
                       <UncontrolledCollapse toggler="#item-1">
                         <CardBody>
-                          <FormGroup className="mb-1">
-                            <Label for="title">Title</Label>
-                            <Field
-                              name="title"
-                              id="title"
-                              onChange={handleBannerOnChange}
-                              value={homeData?.content?.banner?.title}
-                              className={`form-control`}
-                            />
-                          </FormGroup>
-                          <FormGroup className="mb-1">
-                            <Label for="title">SubTitle</Label>
-                            <Field
-                              name="subtitle"
-                              id="subtitle"
-                              onChange={handleBannerOnChange}
-                              value={homeData?.content?.banner?.subtitle}
-                              className={`form-control`}
-                            />
-                          </FormGroup>
-                          <FormGroup className="mb-1">
-                            <Label for="video_link">Url</Label>
-                            <Field
-                              name="video_link"
-                              id="video_link"
-                              onChange={handleBannerOnChange}
-                              value={homeData?.content?.banner?.video_link}
-                              className={`form-control`}
-                            />
-                          </FormGroup>
+                        {homeData?.content?.banner?.map((x, index) => (
                           <Row>
                             <Col sm={9}>
-                              <div>
-                                <Label for="content">Content</Label>
-                                <CKEditor
-                                  config={ckEditorConfig}
-                                  onBeforeLoad={(CKEDITOR) =>
-                                    (CKEDITOR.disableAutoInline = true)
-                                  }
-                                  data={
-                                    homeData?.content?.banner
-                                      ?.description
-                                  }
-                                  onChange={(e) =>
-                                    handleBannerEditor(e.editor.getData())
-                                  }
+                              <FormGroup className="mb-1">
+                              <Label for="title">Title</Label>
+                              <Field
+                                name="title"
+                                id="title"
+                                onChange={(e) => handleBannerOnChange(e, index)}
+                                value={x.title}
+                                className={`form-control`}
+                              />
+                              </FormGroup>
+                              <FormGroup className="mb-1">
+                                <Label for="title">SubTitle</Label>
+                                <Field
+                                  name="subtitle"
+                                  id="subtitle"
+                                  onChange={(e) => handleBannerOnChange(e, index)}
+                                  value={x.subtitle}
+                                  className={`form-control`}
                                 />
-                              </div>
+                              </FormGroup>
                             </Col>
                             <Col sm={3}>
                               <FormGroup className="">
@@ -470,12 +292,10 @@ const HomeForm = () => {
                                 </Label>
                                 <div className="clearfix" />
                                 <div className="img-preview-wrapper">
-                                  {homeData?.content?.banner
-                                    ?.image !== "" && (
+                                  {x.image !== "" && (
                                       <img
                                         src={
-                                          homeData?.content?.banner
-                                            ?.image
+                                          x.image
                                         }
                                         alt=""
                                       />
@@ -485,8 +305,10 @@ const HomeForm = () => {
                                   color="primary"
                                   className="p-1"
                                   onClick={() => {
-                                    setIsSingle(true);
+                                    setIsSingle(false);
                                     setModalShow(true);
+                                    setIsBanner({value : true, index : index + 1});
+                                    setIsPortfolio({value : false, index : 0});
                                   }}
                                 >
                                   Banner Image
@@ -494,6 +316,7 @@ const HomeForm = () => {
                               </FormGroup>
                             </Col>
                           </Row>
+                        ))}
                         </CardBody>
                       </UncontrolledCollapse>
                     </Card>
@@ -514,7 +337,7 @@ const HomeForm = () => {
       {/* //! **************CURRICULUM  Section*************** */}
       <Card className="slider-bottom-section">
         <CardHeader>
-          <CardTitle>Curriculum Section</CardTitle>
+          <CardTitle>Portfolio Section</CardTitle>
         </CardHeader>
         <CardBody>
           <Formik
@@ -530,56 +353,68 @@ const HomeForm = () => {
                     <Card>
                       <CardHeader id="item-2">
                         <CardTitle className="lead collapse-title collapsed">
-                          Curriculum
+                          Portfolio
                         </CardTitle>
                         {/* <ChevronDown size={15} className="collapse-icon" /> */}
                       </CardHeader>
                       <UncontrolledCollapse toggler="#item-2">
                         <CardBody>
-                          <FormGroup className="mb-1">
-                            <Label for="title">Title</Label>
-                            <Field
-                              name="title"
-                              id="title"
-                              onChange={handleCurriculumOnChange}
-                              value={
-                                homeData?.content?.curriculmSection?.title
-                              }
-                              className={`form-control`}
-                            />
-                          </FormGroup>
-                          <FormGroup className="mb-1">
-                            <Label for="subtitle">SubTitle</Label>
-                            <Field
-                              name="subtitle"
-                              id="subtitle"
-                              onChange={handleCurriculumOnChange}
-                              value={
-                                homeData?.content?.curriculmSection?.subtitle
-                              }
-                              className={`form-control`}
-                            />
-                          </FormGroup>
+                        {homeData?.content?.portfolio?.map((x, index) => (
                           <Row>
-                            <Col sm={12}>
-                              <div>
-                                <Label for="content">Content</Label>
-                                <CKEditor
-                                  config={ckEditorConfig}
-                                  onBeforeLoad={(CKEDITOR) =>
-                                    (CKEDITOR.disableAutoInline = true)
-                                  }
-                                  data={
-                                    homeData?.content?.curriculmSection
-                                      ?.description
-                                  }
-                                  onChange={(e) =>
-                                    handleCurriculumEditor(e.editor.getData())
-                                  }
+                            <Col sm={9}>
+                              <FormGroup className="mb-1">
+                              <Label for="title">Title</Label>
+                              <Field
+                                name="title"
+                                id="title"
+                                onChange={(e) => handlePortfolioOnChange(e, index)}
+                                value={x.title}
+                                className={`form-control`}
+                              />
+                              </FormGroup>
+                              <FormGroup className="mb-1">
+                                <Label for="title">SubTitle</Label>
+                                <Field
+                                  name="subtitle"
+                                  id="subtitle"
+                                  onChange={(e) => handlePortfolioOnChange(e, index)}
+                                  value={x.subtitle}
+                                  className={`form-control`}
                                 />
-                              </div>
+                              </FormGroup>
+                            </Col>
+                            <Col sm={3}>
+                              <FormGroup className="">
+                                <Label for="video_thumbnail">
+                                  Upload Image
+                                </Label>
+                                <div className="clearfix" />
+                                <div className="img-preview-wrapper">
+                                  {x.image !== "" && (
+                                      <img
+                                        src={
+                                          x.image
+                                        }
+                                        alt=""
+                                      />
+                                    )}
+                                </div>
+                                <Button.Ripple
+                                  color="primary"
+                                  className="p-1"
+                                  onClick={() => {
+                                    setIsSingle(false);
+                                    setModalShow(true);
+                                    setIsBanner({value : false, index : 0});
+                                    setIsPortfolio({value : true, index : index + 1});
+                                  }}
+                                >
+                                  Banner Image
+                                </Button.Ripple>
+                              </FormGroup>
                             </Col>
                           </Row>
+                        ))}
                         </CardBody>
                       </UncontrolledCollapse>
                     </Card>
@@ -590,76 +425,14 @@ const HomeForm = () => {
           </Formik>
         </CardBody>
       </Card>
-      {/* //! **************COVID Section*************** */}
-      <Card className="welcome-section">
-        <CardHeader>
-          <CardTitle>Covid Section</CardTitle>
-        </CardHeader>
-        <CardBody>
-          <Formik
-            initialValues={{
-              required: "",
-            }}
-            validationSchema={formSchema}
-          >
-            {({ errors, touched }) => (
-              <Form>
-                <div className="variation-row-wrapper mb-2">
-                  <div className="vx-collapse collapse-bordered collapse-icon accordion-icon-rotate">
-                    <Card>
-                      <CardHeader id="item-3">
-                        <CardTitle className="lead collapse-title collapsed">
-                          Covid
-                        </CardTitle>
-                        {/* <ChevronDown size={15} className="collapse-icon" /> */}
-                      </CardHeader>
-                      <UncontrolledCollapse toggler="#item-3">
-                        <CardBody>
-                          <FormGroup className="mb-1">
-                            <Label for="title">Title</Label>
-                            <Field
-                              name="title"
-                              id="title"
-                              onChange={handleCovidOnChange}
-                              value={
-                                homeData?.content?.covidSection?.title
-                              }
-                              className={`form-control`}
-                            />
-                          </FormGroup>
+      <div className="submit-btn-wrap">
+          <Button.Ripple onClick={handleSubmit} color="primary" type="submit">
+              Submit
+          </Button.Ripple>
+      </div>
 
-                          <Row>
-                            <Col sm={12}>
-                              <div>
-                                <Label for="content">Content</Label>
-                                <CKEditor
-                                  config={ckEditorConfig}
-                                  onBeforeLoad={(CKEDITOR) =>
-                                    (CKEDITOR.disableAutoInline = true)
-                                  }
-                                  data={
-                                    homeData?.content?.covidSection
-                                      ?.description
-                                  }
-                                  onChange={(e) =>
-                                    handleCovidEditor(e.editor.getData())
-                                  }
-                                />
-                              </div>
-                            </Col>
-                          </Row>
-                        </CardBody>
-                      </UncontrolledCollapse>
-                    </Card>
-                  </div>
-                </div>
-              </Form>
-            )}
-          </Formik>
-        </CardBody>
-      </Card>
       {/* //! **************SEO Section*************** */}
-      <Card className="welcome-section">
+      {/* <Card className="welcome-section">
         <CardHeader>
           <CardTitle>SEO Section</CardTitle>
         </CardHeader>
@@ -723,323 +496,8 @@ const HomeForm = () => {
             )}
           </Formik>
         </CardBody>
-      </Card>
-      {/* //! ***************************************
-      //? ****************Arabic Version*************
-      //! ***************************************** */}
-      <div className="">
-        <Card className="arabic-home-form">
-          <CardHeader>
-            <CardTitle>Arabic Banner Section</CardTitle>
-          </CardHeader>
-          <CardBody>
-            <Formik
-              initialValues={{
-                required: "",
-              }}
-              validationSchema={formSchema}
-            >
-              {({ errors, touched }) => (
-                <Form>
-                  {/* //! **************Banner************** */}
-                  <div className="variation-row-wrapper mb-2">
-                    <div className="vx-collapse collapse-bordered collapse-icon accordion-icon-rotate">
-                      <Card>
-                        <CardHeader id="item-1">
-                          <CardTitle className="lead collapse-title collapsed">
-                            Banner
-                          </CardTitle>
-                          {/* <ChevronDown size={15} className="collapse-icon" /> */}
-                        </CardHeader>
-                        <UncontrolledCollapse toggler="#item-1">
-                          <CardBody>
-                            <FormGroup className="mb-1">
-                              <Label for="title">Title</Label>
-                              <Field
-                                name="title"
-                                id="title"
-                                onChange={handleArabicBannerOnChange}
-                                value={
-                                  homeData?.content?.arabic?.banner
-                                    ?.title
-                                }
-                                className={`form-control`}
-                              />
-                            </FormGroup>
-                            <FormGroup className="mb-1">
-                              <Label for="title">SubTitle</Label>
-                              <Field
-                                name="subtitle"
-                                id="subtitle"
-                                onChange={handleArabicBannerOnChange}
-                                value={
-                                  homeData?.content?.arabic?.banner
-                                    ?.subtitle
-                                }
-                                className={`form-control`}
-                              />
-                            </FormGroup>
-                            <Row>
-                              <Col sm={12}>
-                                <div>
-                                  <Label for="content">Content</Label>
-                                  <CKEditor
-                                    config={ckEditorConfig}
-                                    onBeforeLoad={(CKEDITOR) =>
-                                      (CKEDITOR.disableAutoInline = true)
-                                    }
-                                    data={
-                                      homeData?.content?.arabic
-                                        ?.banner?.description
-                                    }
-                                    onChange={(e) =>
-                                      handleArabicBannerEditor(
-                                        e.editor.getData()
-                                      )
-                                    }
-                                  />
-                                </div>
-                              </Col>
-                            </Row>
-                          </CardBody>
-                        </UncontrolledCollapse>
-                      </Card>
-                    </div>
-                  </div>
-                </Form>
-              )}
-            </Formik>
-          </CardBody>
-        </Card>
-        {/* //! **************Curriculum Section*************** */}
-        <Card className="arabic-slider-bottom-section">
-          <CardHeader>
-            <CardTitle>Curriculum Section</CardTitle>
-          </CardHeader>
-          <CardBody>
-            <Formik
-              initialValues={{
-                required: "",
-              }}
-              validationSchema={formSchema}
-            >
-              {({ errors, touched }) => (
-                <Form>
-                  <div className="variation-row-wrapper mb-2">
-                    <div className="vx-collapse collapse-bordered collapse-icon accordion-icon-rotate">
-                      <Card>
-                        <CardHeader id="item-2">
-                          <CardTitle className="lead collapse-title collapsed">
-                            Curriculum
-                          </CardTitle>
-                          {/* <ChevronDown size={15} className="collapse-icon" /> */}
-                        </CardHeader>
-                        <UncontrolledCollapse toggler="#item-2">
-                          <CardBody>
-                            <FormGroup className="mb-1">
-                              <Label for="title">Title</Label>
-                              <Field
-                                name="title"
-                                id="title"
-                                value={
-                                  homeData?.content?.arabic?.curriculmSection
-                                    ?.title
-                                }
-                                onChange={handleArabicCurriculumOnChange}
-                                className={`form-control`}
-                              />
-                            </FormGroup>
-                            <FormGroup className="mb-1">
-                              <Label for="subtitle">SubTitle</Label>
-                              <Field
-                                name="subtitle"
-                                id="subtitle"
-                                value={
-                                  homeData?.content?.arabic?.curriculmSection
-                                    ?.subtitle
-                                }
-                                onChange={handleArabicCurriculumOnChange}
-                                className={`form-control`}
-                              />
-                            </FormGroup>
-                            <Row>
-                              <Col sm={12}>
-                                <div>
-                                  <Label for="content">Content</Label>
-                                  <CKEditor
-                                    config={ckEditorConfig}
-                                    onBeforeLoad={(CKEDITOR) =>
-                                      (CKEDITOR.disableAutoInline = true)
-                                    }
-                                    data={
-                                      homeData?.content?.arabic
-                                        ?.curriculmSection?.description
-                                    }
-                                    onChange={(e) =>
-                                      handleArabicCurriculumEditor(e.editor.getData())
-                                    }
-                                  />
-                                </div>
-                              </Col>
-                            </Row>
-                          </CardBody>
-                        </UncontrolledCollapse>
-                      </Card>
-                    </div>
-                  </div>
-                </Form>
-              )}
-            </Formik>
-          </CardBody>
-        </Card>
-        {/* //! **************Covid Section*************** */}
-        <Card className="arabic-welcome-section">
-          <CardHeader>
-            <CardTitle>Covid Section</CardTitle>
-          </CardHeader>
-          <CardBody>
-            <Formik
-              initialValues={{
-                required: "",
-              }}
-              validationSchema={formSchema}
-            >
-              {({ errors, touched }) => (
-                <Form>
-                  <div className="variation-row-wrapper mb-2">
-                    <div className="vx-collapse collapse-bordered collapse-icon accordion-icon-rotate">
-                      <Card>
-                        <CardHeader id="item-3">
-                          <CardTitle className="lead collapse-title collapsed">
-                            Covid
-                          </CardTitle>
-                          {/* <ChevronDown size={15} className="collapse-icon" /> */}
-                        </CardHeader>
-                        <UncontrolledCollapse toggler="#item-3">
-                          <CardBody>
-                            <FormGroup className="mb-1">
-                              <Label for="title">Title</Label>
-                              <Field
-                                name="title"
-                                id="title"
-                                onChange={handleArabicCovidOnChange}
-                                value={
-                                  homeData?.content?.arabic
-                                    ?.covidSection?.title
-                                }
-                                className={`form-control`}
-                              />
-                            </FormGroup>
+      </Card> */}
 
-                            <Row>
-                              <Col sm={12}>
-                                <div>
-                                  <Label for="content">Content</Label>
-                                  <CKEditor
-                                    config={ckEditorConfig}
-                                    onBeforeLoad={(CKEDITOR) =>
-                                      (CKEDITOR.disableAutoInline = true)
-                                    }
-                                    data={
-                                      homeData?.content?.arabic
-                                        ?.covidSection?.description
-                                    }
-                                    onChange={(e) =>
-                                      handleArabicCovidEditor(
-                                        e.editor.getData()
-                                      )
-                                    }
-                                  />
-                                </div>
-                              </Col>
-                            </Row>
-                          </CardBody>
-                        </UncontrolledCollapse>
-                      </Card>
-                    </div>
-                  </div>
-                </Form>
-              )}
-            </Formik>
-          </CardBody>
-        </Card>
-        {/* //! **************SEO Section*************** */}
-        <Card className="arabic-promo-section">
-          <CardHeader>
-            <CardTitle>SEO Section</CardTitle>
-          </CardHeader>
-          <CardBody>
-            <Formik
-              initialValues={{
-                required: "",
-              }}
-              validationSchema={formSchema}
-            >
-              {({ errors, touched }) => (
-                <Form>
-                  <Card>
-                    <CardHeader>
-                      <CardTitle>Meta Tag Details</CardTitle>
-                    </CardHeader>
-                    <CardBody>
-                      <FormGroup className="">
-                        <Label for="title">Meta Title</Label>
-                        <Field
-                          name="title"
-                          id="title"
-                          onChange={handleArabicMetaOnChange}
-                          value={
-                            homeData?.content?.arabic?.meta_details
-                              ?.title
-                          }
-                          className={`form-control`}
-                        />
-                      </FormGroup>
-                      <div>
-                        <Label for="description" className="mb-1">
-                          Description
-                        </Label>
-                        <Input
-                          type="textarea"
-                          name="description"
-                          id="description"
-                          rows="3"
-                          onChange={handleArabicMetaOnChange}
-                          value={
-                            homeData?.content?.arabic?.meta_details
-                              ?.description
-                          }
-                        />
-                      </div>
-                      <div>
-                        <Label for="schema_markup" className="my-1">
-                          Schema Markup
-                        </Label>
-                        <Input
-                          type="textarea"
-                          name="schema_markup"
-                          id="schema_markup"
-                          rows="3"
-                          onChange={handleArabicMetaOnChange}
-                          value={
-                            homeData?.content?.arabic?.meta_details
-                              ?.schema_markup
-                          }
-                        />
-                      </div>
-                    </CardBody>
-                  </Card>
-                </Form>
-              )}
-            </Formik>
-          </CardBody>
-        </Card>
-        <div className="submit-btn-wrap">
-          <Button.Ripple onClick={handleSubmit} color="primary" type="submit">
-            Submit
-          </Button.Ripple>
-        </div>
-      </div>
     </>
   );
 };
