@@ -36,9 +36,11 @@ const formSchema = Yup.object().shape({
 const initialObj = {
     name :"",
     img: "",
+    banner_img: "",
     media_type: "",
     alt_tag: "",
     link: "",
+    slug: "",
     short_description: "",
     long_description : ""
 };
@@ -51,6 +53,7 @@ const MediaCenterForm = (props) => {
     const [modalShow, setModalShow] = React.useState(false);
     const [imagesData, setImagesData] = useState([]);
     const [isSingle, setIsSingle] = useState(false);
+    const [isBannerImg, setIsBannerImg] = useState(false);
     const [thumbnailPreview, setThumbnailPreview] = useState("");
     const [selectedType, setSelectedType] = useState(null);
     const [isBanner, setIsBanner] = useState(false);
@@ -112,10 +115,21 @@ const MediaCenterForm = (props) => {
 
     const handleImageSelect = (e, index) => {
         if (e.target.checked) {
-            if (isSingle && !isBanner) {
+            if (isSingle && !isBannerImg && !isBanner) {
                 setMedia({
                     ...media,
                     img: imagesData[index].url,
+                    alt_tag: imagesData[index].alt_tag
+                });
+                setThumbnailPreview(imagesData[index].url);
+                setTimeout(() => {
+                    setModalShow(false);
+                }, 500);
+            }
+            if (isBannerImg && !isSingle && !isBanner) {
+                setMedia({
+                    ...media,
+                    banner_img: imagesData[index].url,
                     alt_tag: imagesData[index].alt_tag
                 });
                 setThumbnailPreview(imagesData[index].url);
@@ -155,6 +169,7 @@ const MediaCenterForm = (props) => {
     //!------------------Submit and Edit---------------
     const handleSubmit = () => {
         let updatedData = { ...media };
+        updatedData.slug = updatedData.name.replace(/\s+/g, '-').toLowerCase();
         console.log("===updatedData");
         // let formdata = JSON.parse(JSON.stringify(updatedData))
         // // let formdata = updatedData;
@@ -235,7 +250,7 @@ const MediaCenterForm = (props) => {
                                         />
                                 </FormGroup>
                                 <Row>
-                                    <Col sm={9}>
+                                    <Col sm={6}>
                                         <FormGroup className="mb-1">
                                           <Label for="sub_title">Long Description</Label>
                                           <Input
@@ -245,7 +260,7 @@ const MediaCenterForm = (props) => {
                                             value={media.long_description}
                                             className={`form-control`}
                                             type="textarea"
-                                            rows="6"
+                                            rows="10"
                                           />
                                       </FormGroup>
                                       <FormGroup className="mb-1">
@@ -264,6 +279,30 @@ const MediaCenterForm = (props) => {
                                             <Label for="img">Featured Image</Label>
                                             <div className="clearfix" />
                                             <div className="img-preview-wrapper">
+                                                {media.banner_img !== "" && (
+                                                    <img src={media.banner_img} alt="" className="img-fluid" />
+                                                )}
+                                            </div>
+                                            <Button.Ripple
+                                                color="primary"
+                                                className="p-1"
+                                                onClick={() => {
+                                                    setIsSingle(false);
+                                                    setIsBannerImg(true);
+                                                    setIsBanner(false);
+                                                    setModalShow(true);
+                                                    setModalShow(true);
+                                                }}
+                                            >
+                                                Add Featured Image
+                                            </Button.Ripple>
+                                        </FormGroup>
+                                    </Col>
+                                    <Col sm={3}>
+                                        <FormGroup className="">
+                                            <Label for="img">Image Thumbnail</Label>
+                                            <div className="clearfix" />
+                                            <div className="img-preview-wrapper">
                                                 {media.img !== "" && (
                                                     <img src={media.img} alt="" className="img-fluid" />
                                                 )}
@@ -273,11 +312,12 @@ const MediaCenterForm = (props) => {
                                                 className="p-1"
                                                 onClick={() => {
                                                     setIsSingle(true);
+                                                    setIsBannerImg(false);
                                                     setIsBanner(false);
                                                     setModalShow(true);
                                                 }}
                                             >
-                                                Add Featured Image
+                                                Add thumbnail Image
                                             </Button.Ripple>
                                         </FormGroup>
                                     </Col>
