@@ -444,12 +444,7 @@ const AboutUs = () => {
     //     setHomeData(updatedValue);
     // };
     //!--------Hanlde Meta Details OnChange---------
-    const handleArabicMetaOnChange = (e) => {
-        let updatedValue = { ...aboutData };
-        updatedValue.content.arabic.meta_details[e.target.name] =
-            e.target.value;
-        setAboutData(updatedValue);
-    };
+
     //! --------------Handle Submit-------------
     const handleSubmit = () => {
         let updatedData = { ...aboutData, page_id: pageData._id };
