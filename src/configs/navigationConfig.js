@@ -68,6 +68,22 @@ const navigationConfig = [
     permissions: ["admin", "editor"],
     navLink: "/Partner/list",
   },
+  {
+    id: "emailQueries",
+    title: "User Emails",
+    type: "item",
+    icon: <Icon.Mail size={12} />,
+    permissions: ["admin", "editor"],
+    navLink: "/queries",
+  },
+  {
+    id: "userQueries",
+    title: "User Queries",
+    type: "item",
+    icon: <Icon.Mail size={12} />,
+    permissions: ["admin", "editor"],
+    navLink: "/user/queries",
+  },
 
   // !--------------SolutionAndServices-------
   {

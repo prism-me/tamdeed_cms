@@ -122,8 +122,13 @@ const IndustryForm = lazy(() => import("./views/dashboard/Industry/IndustryForm"
 const ReferenceProjectList = lazy(() => import("./views/dashboard/ReferenceProject/ReferenceProjectList"));
 const ReferenceProjectForm = lazy(() => import("./views/dashboard/ReferenceProject/ReferenceProjectForm"));
 
+const EmailQueryList = lazy(() => import("./views/dashboard/emailQuery/emailQueryList"));
+
 const PartnerList = lazy(() => import("./views/dashboard/Partner/PartnerList"));
 const PartnerForm = lazy(() => import("./views/dashboard/Partner/PartnerForm"));
+
+const userQueriesList = lazy(() => import("./views/dashboard/userQuery/userQueryList"));
+const userQueriesForm = lazy(() => import("./views/dashboard/userQuery/userQueryForm"));
 
 const SolutionAndServicesList = lazy(() => import("./views/dashboard/SolutionAndServices/SolutionAndServicesList"));
 const SolutionAndServicesForm = lazy(() => import("./views/dashboard/SolutionAndServices/SolutionAndServicesForm"));
@@ -506,6 +511,12 @@ class AppRouter extends React.Component {
             <AppRoute path="/Partner/form/edit/:id" component={PartnerForm} />
             <AppRoute path="/Partner/form" component={PartnerForm} />
             <AppRoute path="/Partner" component={PartnerList} />
+            
+            <AppRoute path="/user/queries/edit/:id" component={userQueriesForm} />
+            <AppRoute path="/Partner/form" component={userQueriesForm} />
+            <AppRoute path="/user/queries" component={userQueriesList} />
+
+            <AppRoute path="/queries" component={EmailQueryList} />
 
             <AppRoute path="/ReferenceProject/form/edit/:id" component={ReferenceProjectForm} />
             <AppRoute path="/ReferenceProject/form" component={ReferenceProjectForm} />
