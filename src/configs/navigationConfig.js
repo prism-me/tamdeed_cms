@@ -150,14 +150,14 @@ const navigationConfig = [
     navLink: "/career",
   },
   // !--------------Post Opportunuty-------
-  {
-    id: "JobOpportunuty",
-    title: "Job Opportunuty",
-    type: "item",
-    icon: <Icon.Calendar size={12} />,
-    permissions: ["admin", "editor"],
-    navLink: "/post-opportunity/list",
-  },
+  // {
+  //   id: "JobOpportunuty",
+  //   title: "Job Opportunuty",
+  //   type: "item",
+  //   icon: <Icon.Calendar size={12} />,
+  //   permissions: ["admin", "editor"],
+  //   navLink: "/post-opportunity/list",
+  // },
   //!-----------Our Curriculum----------
   // {
   //   id: "OurCurriculum",
@@ -255,23 +255,23 @@ const navigationConfig = [
   // },
 
   //!---------------Users------
-  {
-    id: "users",
-    title: "Registered Users",
-    type: "item",
-    icon: <Icon.User size={12} />,
-    permissions: ["admin", "editor"],
-    navLink: "/users-list",
-  },
+  // {
+  //   id: "users",
+  //   title: "Registered Users",
+  //   type: "item",
+  //   icon: <Icon.User size={12} />,
+  //   permissions: ["admin", "editor"],
+  //   navLink: "/users-list",
+  // },
   //!---------------Header------
-  {
-    id: "header",
-    title: "Header",
-    type: "item",
-    icon: <Icon.Flag size={12} />,
-    permissions: ["admin", "editor"],
-    navLink: "/header",
-  },
+  // {
+  //   id: "header",
+  //   title: "Header",
+  //   type: "item",
+  //   icon: <Icon.Flag size={12} />,
+  //   permissions: ["admin", "editor"],
+  //   navLink: "/header",
+  // },
   //!---------------Footer------
   {
     id: "footer",
@@ -282,14 +282,14 @@ const navigationConfig = [
     navLink: "/footer",
   },
   //!---------------FormsDropDown------
-  {
-    id: "FormsDropDown",
-    title: "Filter Queries",
-    type: "item",
-    icon: <Icon.ShoppingBag size={12} />,
-    permissions: ["admin", "editor"],
-    navLink: "/AGSForms",
-  },
+  // {
+  //   id: "FormsDropDown",
+  //   title: "Filter Queries",
+  //   type: "item",
+  //   icon: <Icon.ShoppingBag size={12} />,
+  //   permissions: ["admin", "editor"],
+  //   navLink: "/AGSForms",
+  // },
   //!-------------Gallery--------
   {
     id: "gallery",
