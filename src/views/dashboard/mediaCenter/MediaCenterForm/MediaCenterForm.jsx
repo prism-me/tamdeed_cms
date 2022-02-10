@@ -91,9 +91,9 @@ const MediaCenterForm = (props) => {
                     // debugger;
 
                     if (response.status === 200 || response.status === 201) {
-                        setMedia(response.data.data);
+                        setMedia(response.data.data[0]);
                         let a = {
-                          value: response.data.data.media_type, label: response.data.data.media_type
+                          value: response.data.data[0].media_type, label: response.data.data[0].media_type
                         }
                         setSelectedType(a);
                         // console.log(mentors);

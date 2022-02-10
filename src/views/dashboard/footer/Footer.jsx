@@ -62,9 +62,13 @@ export default function UpdateFooter() {
   const classes = useStyles();
   // const [open, setOpen] = React.useState(false);
   const initialObject = {
+    name:"footer",
+    slug:"footer",
+    content: {
       facebook: "",
       twitter: "",
       instagram: "",
+    }
   };
 
   const [openSnackAlert, setOpenSnackAlert] = useState(false);
@@ -75,6 +79,8 @@ export default function UpdateFooter() {
   const [pages, setPages] = useState([]);
   const [pagesFilter, setPagesFilter] = useState([]);
   const [pageData, setPageData] = useState();
+  const [sectionID, setSectionID] = useState(0);
+
 
   useEffect(() => {
     API.get(`/pages`)
@@ -88,6 +94,7 @@ export default function UpdateFooter() {
                         console.log("res.data.data",res.data.data)
                         if(res.data.data.length > 0){
                           setFooterContent(res.data.data[0]);
+                          setSectionID(res.data.data[0]._id)
                         }
                         
                     })
@@ -98,35 +105,38 @@ export default function UpdateFooter() {
   }, []);
 
   const handleSubmit = (section) => {
-    
-    
-    API[footerContent[section]?.id ? "put" : "post"](
-      footerContent[section]?.id
-        ? `/widget/${footerContent[section]?.id}`
-        : `/widget`,
-      {
-        widget_type: "footer",
-        widget_name: section,
-        items: footerContent[section],
-      }
-    )
+
+    let updatedData = { ...footerContent, page_id: pageData._id };
+    console.log(updatedData,"updatedData")
+    delete updatedData._id 
+    if(sectionID){
+      API.put(`/sections/${sectionID}`, updatedData)
       .then((response) => {
-        if (response.status === 200) {
-          // alert(response.data.message);
-          setMessageInfo((prev) => [
-            ...prev,
-            { message: response.data.message, key: new Date().getTime() },
-          ]);
-          setOpenSnackAlert(true);
-          // setFooterContent({ ...initialObject }); //resetting the form
-        }
+          alert("Data updated successfully");
+          window.location.reload();
       })
-      .catch((err) => alert("Something went wrong"));
+      .catch((err) =>
+          alert(
+              "Something went wrong, Please check your internet connect and reload page"
+          )
+      );
+    } else {
+      API.post(`/sections`, updatedData)
+      .then((response) => {
+          alert("Data updated successfully");
+          window.location.reload();
+      })
+      .catch((err) =>
+          alert(
+              "Something went wrong, Please check your internet connect and reload page"
+          )
+      );
+    }
   };
 
   const handleFooterOnChange = (e) => {
     let updatedValue = { ...footerContent };
-    updatedValue[e.target.name] = e.target.value;
+    updatedValue.content[e.target.name] = e.target.value;
     setFooterContent(updatedValue);
   };
 
@@ -155,19 +165,19 @@ export default function UpdateFooter() {
                 <Col md="6" sm="12">
                   <FormGroup>
                     <Label> Facebook </Label>
-                    <Input type="text" name="facebook" onChange={handleFooterOnChange} value={footerContent?.facebook} />
+                    <Input type="text" name="facebook" onChange={handleFooterOnChange} value={footerContent?.content?.facebook} />
                   </FormGroup>
                 </Col>
                 <Col md="6" sm="12">
                   <FormGroup>
                     <Label> Twitter </Label>
-                    <Input type="text" name="twitter" onChange={handleFooterOnChange} value={footerContent?.twitter}/>
+                    <Input type="text" name="twitter" onChange={handleFooterOnChange} value={footerContent?.content?.twitter}/>
                   </FormGroup>
                 </Col>
                 <Col md="6" sm="12">
                   <FormGroup>
                     <Label> Instagram </Label>
-                    <Input type="text" name="instagram" onChange={handleFooterOnChange} value={footerContent?.instagram} />
+                    <Input type="text" name="instagram" onChange={handleFooterOnChange} value={footerContent?.content?.instagram} />
                   </FormGroup>
                 </Col>
                   <Grid item xs={12} sm={12}>
