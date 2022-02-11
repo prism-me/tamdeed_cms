@@ -89,7 +89,7 @@ class PostOpportunityList extends React.Component {
     }
 
     getJobOpportunityList = () => {
-        API.get("/career")
+        API.get("/jobs")
             .then((response) => {
                 this.setState({
                     data: response.data.data,
@@ -99,7 +99,7 @@ class PostOpportunityList extends React.Component {
     };
 
     handleDelete = (id) => {
-        API.delete(`/career/${id}`)
+        API.delete(`/jobs/${id}`)
             .then((response) => {
                 // alert("Video deleted successfully");
                 this.getJobOpportunityList();

@@ -44,7 +44,7 @@ const PostOpportunityForm = (props) => {
     useEffect(() => {
         if (id && id !== "") {
             setIsEdit(true);
-            API.get(`/career/${id}`)
+            API.get(`/jobs/${id}`)
                 .then((response) => {
                     // debugger;
                     if (response.status === 200 || response.status === 201) {
@@ -74,7 +74,7 @@ const PostOpportunityForm = (props) => {
         if (isEdit) {
             let updateId = jobData._id;
             delete jobData["_id"];
-            API.put(`/career/${updateId}`, jobData)
+            API.put(`/jobs/${updateId}`, jobData)
                 .then((res) => {
                     if (res.status === 200 || res.status === 201) {
                         alert("Item updated successfully");
@@ -83,7 +83,7 @@ const PostOpportunityForm = (props) => {
                 })
                 .catch((err) => alert("Something went wrong"));
         } else {
-            API.post(`/career`, jobData)
+            API.post(`/jobs`, jobData)
                 .then((response) => {
                     if (response.status === 200 || response.status === 201) {
                         alert("Item added successfully");
@@ -127,19 +127,15 @@ const PostOpportunityForm = (props) => {
                                 </Row>
                                 <FormGroup className="mb-1">
                                     <Label for="description">Job Description</Label>
-                                    <CKEditor
-                                        config={ckEditorConfig}
-                                        onBeforeLoad={(CKEDITOR) =>
-                                            (CKEDITOR.disableAutoInline = true)
-                                        }
-                                        data={jobData.description || ""}
-                                        onChange={(e) => {
-                                            setJobData({
-                                                ...jobData,
-                                                description: e.editor.getData(),
-                                            });
-                                        }}
-                                    />
+                                    <Input
+                                            name="decription"
+                                            id="decription"
+                                            onChange={handleFieldChange}
+                                            value={jobData.decription}
+                                            className={`form-control`}
+                                            type="textarea"
+                                            rows="10"
+                                          />
                                 </FormGroup>
                             </Form>
                         )}
@@ -150,7 +146,7 @@ const PostOpportunityForm = (props) => {
             {/* *********************
       ARABIC VERSION FIELDS
       ********************* */}
-            {isEdit && (
+            { false && isEdit && (
                 // <Card style={{ background: '#f0f0f0', boxShadow: `0px 4px 25px 0px rgba(230, 85, 80, 0.4)` }}>
                 <Card style={{ background: "rgba(230,85,80,.15)" }}>
                     <CardBody>
@@ -187,6 +183,7 @@ const PostOpportunityForm = (props) => {
                                                 });
                                             }}
                                         />
+                                        
                                     </FormGroup>
                                 </Form>
                             </Formik>

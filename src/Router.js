@@ -498,19 +498,19 @@ class AppRouter extends React.Component {
 
             <AppRoute path="/Team/form/edit/:id" component={TeamForm} />
             <AppRoute path="/Team/form" component={TeamForm} />
-            <AppRoute path="/Team" component={TeamList} />
+            <AppRoute path="/Team/list" component={TeamList} />
 
             <AppRoute path="/MediaCenter/form/edit/:id" component={MediaCenterForm} />
             <AppRoute path="/MediaCenter/form" component={MediaCenterForm} />
-            <AppRoute path="/MediaCenter" component={MediaCenterList} />
+            <AppRoute path="/MediaCenter/list" component={MediaCenterList} />
 
             <AppRoute path="/Industry/form/edit/:id" component={IndustryForm} />
             <AppRoute path="/Industry/form" component={IndustryForm} />
-            <AppRoute path="/Industry" component={IndustryList} />
+            <AppRoute path="/Industry/list" component={IndustryList} />
 
             <AppRoute path="/Partner/form/edit/:id" component={PartnerForm} />
             <AppRoute path="/Partner/form" component={PartnerForm} />
-            <AppRoute path="/Partner" component={PartnerList} />
+            <AppRoute path="/Partner/list" component={PartnerList} />
             
             <AppRoute path="/user/queries/edit/:id" component={userQueriesForm} />
             <AppRoute path="/Partner/form" component={userQueriesForm} />
@@ -520,11 +520,11 @@ class AppRouter extends React.Component {
 
             <AppRoute path="/ReferenceProject/form/edit/:id" component={ReferenceProjectForm} />
             <AppRoute path="/ReferenceProject/form" component={ReferenceProjectForm} />
-            <AppRoute path="/ReferenceProject" component={ReferenceProjectList} />
+            <AppRoute path="/ReferenceProject/list" component={ReferenceProjectList} />
 
             <AppRoute path="/SolutionAndServices/form/edit/:id" component={SolutionAndServicesForm} />
             <AppRoute path="/SolutionAndServices/form" component={SolutionAndServicesForm} />
-            <AppRoute path="/SolutionAndServices" component={SolutionAndServicesList} />
+            <AppRoute path="/SolutionAndServices/list" component={SolutionAndServicesList} />
 
             <AppRoute
               path="/breast-feeding-advisor/form/:id"
