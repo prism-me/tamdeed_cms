@@ -169,7 +169,7 @@ const MediaCenterForm = (props) => {
     //!------------------Submit and Edit---------------
     const handleSubmit = () => {
         let updatedData = { ...media };
-        updatedData.slug = updatedData.name.replace(/\s+/g, '-').toLowerCase();
+        // updatedData.slug = updatedData.name.replace(/\s+/g, '-').toLowerCase();
         console.log("===updatedData");
         // let formdata = JSON.parse(JSON.stringify(updatedData))
         // // let formdata = updatedData;
@@ -223,6 +223,16 @@ const MediaCenterForm = (props) => {
                                             name="name"
                                             id="name"
                                             value={media.name}
+                                            onChange={handleFieldChange}
+                                            className={`form-control`}
+                                        />
+                                </FormGroup>
+                                <FormGroup className="mb-1">
+                                        <Label for="slug">Slug</Label>
+                                        <Field
+                                            name="slug"
+                                            id="slug"
+                                            value={media.slug}
                                             onChange={handleFieldChange}
                                             className={`form-control`}
                                         />

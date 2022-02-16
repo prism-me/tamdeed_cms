@@ -40,42 +40,49 @@ const CustomHeader = (props) => {
 class MediaCenterList extends React.Component {
     state = {
         columns: [
-            {
-                name: "Name",
-                selector: "name",
-                sortable: true,
-                minWidth: "200px",
-                cell: (row) => (
-                    <div className="d-flex flex-xl-row flex-column align-items-xl-center align-items-start py-xl-0 py-1">
-                        <div className="user-img ml-xl-0 ml-2">
-                            {row.img?.startsWith("http") ? (
-                                <img
-                                    className="img-fluid rounded-circle"
-                                    height="36"
-                                    width="36"
-                                    src={row.img}
-                                    alt={row.alt_tag}
-                                />
-                            ) : null}
-                        </div>
-                        <div className="user-info text-truncate ml-xl-50 ml-0">
-                            <span
-                                title={row.name}
-                                className="d-block text-bold-500 text-truncate mb-0"
-                            >
-                                {row.name}
-                            </span>
-                        </div>
-                    </div>
-                ),
-            },
+            // {
+            //     name: "Name",
+            //     selector: "name",
+            //     sortable: true,
+            //     minWidth: "200px",
+            //     cell: (row) => (
+            //         <div className="d-flex flex-xl-row flex-column align-items-xl-center align-items-start py-xl-0 py-1">
+            //             <div className="user-img ml-xl-0 ml-2">
+            //                 {row.img?.startsWith("http") ? (
+            //                     <img
+            //                         className="img-fluid rounded-circle"
+            //                         height="36"
+            //                         width="36"
+            //                         src={row.img}
+            //                         alt={row.alt_tag}
+            //                     />
+            //                 ) : null}
+            //             </div>
+            //             <div className="user-info text-truncate ml-xl-50 ml-0">
+            //                 <span
+            //                     title={row.name}
+            //                     className="d-block text-bold-500 text-truncate mb-0"
+            //                 >
+            //                     {row.name}
+            //                 </span>
+            //             </div>
+            //         </div>
+            //     ),
+            // },
 
+            {
+                name: "Title",
+                selector: "title",
+                sortable: true,
+                cell: (row) => <p className="text-bold-500 mb-0">{row.name}</p>,
+            },
             {
                 name: "Media Type",
                 selector: "media_type",
                 sortable: true,
                 cell: (row) => <p className="text-bold-500 mb-0">{row.media_type}</p>,
             },
+
             {
                 name: "Link",
                 selector: "link",
