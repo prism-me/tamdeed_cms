@@ -149,8 +149,8 @@ class SolutionAndServicesList extends React.Component {
         if (value.length) {
             filteredData = data.filter((item) => {
                 let startsWithCondition =
-                    item.name?.toLowerCase().startsWith(value?.toLowerCase()) ||
-                    item.date?.toLowerCase().startsWith(value?.toLowerCase()) ||
+                    item.title?.toLowerCase().startsWith(value?.toLowerCase()) ||
+                    item.type?.toLowerCase().startsWith(value?.toLowerCase()) ||
                     item.size?.toLowerCase().startsWith(value?.toLowerCase()) ||
                     item.description
                         ?.toLowerCase()
@@ -162,8 +162,8 @@ class SolutionAndServicesList extends React.Component {
                     // item.material?.toLowerCase().startsWith(value?.toLowerCase())
                     ;
                 let includesCondition =
-                    item.name?.toLowerCase().includes(value?.toLowerCase()) ||
-                    item.date?.toLowerCase().includes(value?.toLowerCase()) ||
+                    item.title?.toLowerCase().includes(value?.toLowerCase()) ||
+                    item.type?.toLowerCase().includes(value?.toLowerCase()) ||
                     item.size?.toLowerCase().startsWith(value?.toLowerCase()) ||
                     item.description
                         ?.toLowerCase()
