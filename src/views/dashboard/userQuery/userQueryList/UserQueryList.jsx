@@ -10,14 +10,14 @@ import {
 } from "reactstrap";
 import DataTable from "react-data-table-component";
 import { Search } from "react-feather";
-import { MdDelete, MdEdit ,MdMail } from "react-icons/md";
+import { MdDelete, MdEdit, MdMail } from "react-icons/md";
 import { FaEye } from "react-icons/fa";
 import { API } from "../../../../http/API";
 
 class UserQueryList extends React.Component {
     state = {
         columns: [
-              {
+            {
                 name: "Name",
                 selector: "name",
                 sortable: true,
@@ -152,7 +152,7 @@ class UserQueryList extends React.Component {
         return (
             <Card>
                 <CardHeader>
-                    <CardTitle>Partners</CardTitle>
+                    <CardTitle> User Query</CardTitle>
                 </CardHeader>
                 <CardBody className="rdt_Wrapper">
                     <DataTable
@@ -162,7 +162,7 @@ class UserQueryList extends React.Component {
                         noHeader
                         pagination
                         subHeader
-                        
+
                     />
                 </CardBody>
             </Card>
