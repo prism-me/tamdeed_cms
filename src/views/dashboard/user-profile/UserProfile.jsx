@@ -45,8 +45,7 @@ class UserProfile extends React.Component {
   // }
 
   render() {
-    const { name, email, created_at, role } =
-      this.props.dataLog.values.loggedInUser;
+    const { name, email, created_at, role } = this.props.dataLog.loggedInUser;
     let getDate = new Date(created_at);
     let year = getDate.getUTCFullYear();
     let month = getDate.toLocaleString("en-us", { month: "long" });
@@ -59,7 +58,7 @@ class UserProfile extends React.Component {
 
     console.log(
       "Login user response",
-      this.props.dataLog.values.loggedInUser.email
+      this.props.dataLog.loggedInUser.email
     );
 
     return (

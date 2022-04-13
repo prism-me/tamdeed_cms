@@ -39,7 +39,7 @@ const UserDropdown = (props) => {
         <Icon.User size={14} className="mr-50" />
         <span className="align-middle">Edit Profile</span>
       </DropdownItem>
-      <DropdownItem
+      {/* <DropdownItem
         tag="a"
         href="#"
         onClick={(e) => handleNavigation(e, "/email/inbox")}
@@ -71,7 +71,7 @@ const UserDropdown = (props) => {
         <Icon.Heart size={14} className="mr-50" />
         <span className="align-middle">WishList</span>
       </DropdownItem>
-      <DropdownItem divider />
+      <DropdownItem divider /> */}
       <DropdownItem
         tag="a"
         href="/pages/login"

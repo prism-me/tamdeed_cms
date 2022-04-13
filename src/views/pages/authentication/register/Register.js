@@ -58,7 +58,7 @@ class Register extends React.Component {
                   <p className="px-2 auth-title mb-0">
                     Fill the below form to create a new account.
                   </p>
-                  <Nav tabs className="px-2">
+                  {/* <Nav tabs className="px-2">
                     <NavItem>
                       <NavLink
                         className={classnames({
@@ -95,7 +95,7 @@ class Register extends React.Component {
                         Auth0
                       </NavLink>
                     </NavItem>
-                  </Nav>
+                  </Nav> */}
                   <CardBody className="pt-1 pb-50">
                     <TabContent activeTab={this.state.activeTab}>
                       <TabPane tabId="1">

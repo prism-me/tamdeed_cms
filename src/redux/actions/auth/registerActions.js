@@ -3,6 +3,7 @@ import { history } from "../../../history"
 import "firebase/auth"
 import "firebase/database"
 import axios from "axios"
+import {API} from "../../../http/API"
 import { config } from "../../../authServices/firebase/firebaseConfig"
 
 // Init firebase if not already initialized
@@ -56,8 +57,7 @@ export const signupWithFirebase = (email, password, name) => {
 
 export const signupWithJWT = (email, password, name) => {
   return dispatch => {
-    axios
-      .post("/api/authenticate/register/user", {
+    API.post("/auth/register", {
         email: email,
         password: password,
         name: name
@@ -65,7 +65,7 @@ export const signupWithJWT = (email, password, name) => {
       .then(response => {
         var loggedInUser
 
-        if(response.data){
+        if (response.data) {
 
           loggedInUser = response.data.user
 
