@@ -57,20 +57,8 @@ class LoginJWT extends React.Component {
                 defaultChecked={false}
                 onChange={this.handleRemember}
               />
-              <div className="float-right">
-                <Link to="/pages/forgot-password">Forgot Password?</Link>
-              </div>
             </FormGroup>
             <div className="d-flex justify-content-between">
-              <Button.Ripple
-                color="primary"
-                outline
-                onClick={() => {
-                  history.push("/pages/register");
-                }}
-              >
-                Register
-              </Button.Ripple>
               <Button.Ripple color="primary" type="submit">
                 Login
               </Button.Ripple>
