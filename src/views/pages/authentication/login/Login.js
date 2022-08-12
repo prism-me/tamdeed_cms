@@ -99,12 +99,6 @@ class Login extends React.Component {
                     <TabPane tabId="1">
                       <LoginJWT />
                     </TabPane>
-                    {/* <TabPane tabId="2">
-                      <LoginFirebase />
-                    </TabPane> */}
-                    {/* <TabPane tabId="3">
-                      <LoginAuth0 />
-                    </TabPane> */}
                   </TabContent>
                 </Card>
               </Col>
