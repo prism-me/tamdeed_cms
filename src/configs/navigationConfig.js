@@ -264,14 +264,14 @@ const navigationConfig = [
   //   navLink: "/users-list",
   // },
   //!---------------Header------
-  // {
-  //   id: "header",
-  //   title: "Header",
-  //   type: "item",
-  //   icon: <Icon.Flag size={12} />,
-  //   permissions: ["admin", "editor"],
-  //   navLink: "/header",
-  // },
+  {
+    id: "header",
+    title: "Header",
+    type: "item",
+    icon: <Icon.Flag size={12} />,
+    permissions: ["admin", "editor"],
+    navLink: "/header",
+  },
   //!---------------Footer------
   {
     id: "footer",
