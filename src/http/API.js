@@ -2,7 +2,8 @@ import axios from "axios";
 // import { store } from "store";
 
 // const apiURL1 = "https://prismcloudhosting.com/AGS_APIs/public/api/";
-const apiURL = "https://prismcloudhosting.com/Tamdeed_APIs/public/api/";
+// const apiURL = "https://prismcloudhosting.com/Tamdeed_APIs/public/api/";
+const apiURL = "https://api.tamdeed.ae/api/";
 export const API = axios.create({
   baseURL: apiURL,
   // baseURL2: apiURL1,
